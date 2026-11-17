@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royals War Room: Pressure Players</title>
+<style>
+:root{
+  --bg:#060916; --bg2:#0b1128; --card:#0f172a; --card2:#111b36; --line:#1f2a48; --line2:#2b3a62;
+  --txt:#e8edf7; --mut:#93a0bd; --dim:#64718f;
+  --pink:#ea1a85; --pink2:#ff5cae; --gold:#fbbf24; --green:#34d399; --red:#fb7185; --blue:#60a5fa; --violet:#a78bfa;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--pink2)}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+header.top{position:sticky;top:0;z-index:20;background:rgba(6,9,22,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.head{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#ea1a85,#6d28d9 60%,#0f172a);display:grid;place-items:center;font-weight:800;letter-spacing:.06em;border:1px solid rgba(255,92,174,.45)}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink2);font-weight:700}
+.title{font-size:17px;font-weight:800}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 10px;scrollbar-width:thin}
+nav.tabs button{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--mut);padding:7px 12px;border-radius:10px;font:600 12.5px inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
+nav.tabs button:hover{color:var(--txt);border-color:var(--line2)}
+nav.tabs button.on{background:linear-gradient(90deg,#ea1a85,#be185d);border-color:transparent;color:#fff}
+main{padding:20px 0 48px}
+section.view{display:none}
+section.view.on{display:block}
+.grid{display:grid;gap:14px}
+.grid>*,.two>*{min-width:0}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media(max-width:980px){.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
+@media(max-width:520px){.g4,.g5{grid-template-columns:1fr 1fr}}
+.card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.card.pad0{padding:0;overflow:hidden}
+.card h3{font-size:15px}
+.sub{color:var(--mut);font-size:12.5px;margin-top:4px}
+.kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:700}
+.kpi .v{font-size:23px;font-weight:800;margin-top:2px}
+.kpi .n{font-size:11.5px;color:var(--mut);margin-top:2px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid}
+.chip.ok{color:#6ee7b7;background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.4)}
+.chip.warn{color:#fcd34d;background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.4)}
+.chip.bad{color:#fda4af;background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.4)}
+.chip.info{color:#bfdbfe;background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.4)}
+.chip.pink{color:#fbcfe8;background:rgba(234,26,133,.16);border-color:rgba(234,26,133,.45)}
+.btn{background:rgba(234,26,133,.16);border:1px solid rgba(234,26,133,.5);color:#fbcfe8;border-radius:9px;padding:6px 11px;font:700 12px inherit;font-family:inherit;cursor:pointer}
+.btn:hover{background:rgba(234,26,133,.3)}
+.btn.alt{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.45);color:#fde68a}
+.btn.ghost{background:transparent;border-color:var(--line2);color:var(--mut)}
+select,input[type=search],input[type=text]{background:var(--card);color:var(--txt);border:1px solid var(--line2);border-radius:9px;padding:7px 10px;font:inherit;font-size:12.5px}
+input[type=range]{width:100%;accent-color:var(--pink)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+.scroll table{min-width:520px}
+th{position:sticky;top:0;text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding:9px 10px;border-bottom:1px solid var(--line2);background:var(--card);white-space:nowrap}
+th.s{cursor:pointer;user-select:none}
+th.s:hover{color:var(--txt)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.row{cursor:pointer}
+tr.row:hover td{background:rgba(255,255,255,.03)}
+tr.row.sel td{background:rgba(234,26,133,.1)}
+td.r,th.r{text-align:right}
+.scroll{overflow:auto;max-height:560px}
+.rk{font-weight:800;color:var(--pink2)}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:6px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11.5px;color:var(--mut)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+svg text{font-family:inherit}
+.note{font-size:12px;color:var(--mut);border-left:3px solid var(--line2);padding:6px 10px;background:rgba(255,255,255,.02);border-radius:0 8px 8px 0}
+.note.warn{border-left-color:var(--gold)}
+.note.bad{border-left-color:var(--red)}
+.note.ok{border-left-color:var(--green)}
+.two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px}
+@media(max-width:980px){.two{grid-template-columns:1fr}}
+.row2{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hr{height:1px;background:var(--line);margin:12px 0}
+.pill-list{display:flex;flex-direction:column;gap:7px}
+.pl{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}
+.pick{cursor:pointer;border:2px solid var(--line);border-radius:var(--r);padding:14px;background:var(--card);transition:.15s}
+.pick:hover{border-color:var(--line2)}
+.pick.on{border-color:var(--pink);background:rgba(234,26,133,.08)}
+.big{font-size:30px;font-weight:800}
+.drawer h3{font-size:18px}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0 0;font-size:12.5px}
+dl.kv dt{color:var(--mut)} dl.kv dd{margin:0;text-align:right}
+footer{border-top:1px solid var(--line);padding:16px;text-align:center;color:var(--dim);font-size:12px}
+.small{font-size:11.5px;color:var(--mut)}
+.tag{font-size:11.5px;color:var(--mut)}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:rgba(255,255,255,.02)}
+summary{cursor:pointer;font-weight:700}
+.hero{padding:34px 30px;border-radius:20px;border:1px solid rgba(255,92,174,.35);background:radial-gradient(900px 300px at 85% -20%,rgba(234,26,133,.35),transparent 60%),radial-gradient(700px 300px at 0% 120%,rgba(109,40,217,.35),transparent 60%),linear-gradient(180deg,#0f1530,#0a0f24)}
+.hero h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;font-weight:800;letter-spacing:-.02em;max-width:880px;margin-top:10px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#ff5cae,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:16px;color:#c9d3ea;max-width:760px;margin:14px 0 0}
+.sec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:700;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.sec:after{content:"";flex:1;height:1px;background:var(--line)}
+.step .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:800;background:rgba(234,26,133,.18);border:1px solid rgba(234,26,133,.5);color:#fbcfe8;margin-bottom:10px}
+.step h4{font-size:15px;margin-bottom:6px}.step p{margin:0;color:var(--mut);font-size:12.5px}
+.step .hl{margin-top:10px;font-size:12.5px;color:var(--txt)}
+@media print{header.top nav{display:none}section.view{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="head">
+      <div class="brand">
+        <div class="logo">RR</div>
+        <div>
+          <div class="eyebrow">SupeRR Selector Season 2 · Round 1</div>
+          <div class="title">Royals War Room: Pressure Players &amp; IPL 2027 Auction Plan</div>
+        </div>
+      </div>
+      <div class="flex"><span class="chip pink">Prashi Jain · IIT Madras · Data Science</span><span class="chip info" id="countdown">…</span></div>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- 1 SUMMARY -->
+<section class="view" id="v-submission">
+  <div class="hero">
+    <div class="eyebrow">SupeRR Selector Season 2 · Round 1 · Reliable players under pressure</div>
+    <h1>Who still delivers when the match is <em>on the line</em>?</h1>
+    <p class="lead">We scored every one of 200,999 deliveries from IPL and T20I cricket (2022–2026) on how much pressure the batter or bowler was under. We then measured who beats expectation in those moments, and turned the findings into a Rajasthan Royals plan for the IPL 2027 auction.</p>
+    <div class="flex" style="margin-top:18px"><span class="chip pink">Prashi Jain · IIT Madras · Data Science</span><button class="btn" id="goTop">See the top 10</button><button class="btn ghost" id="goLab">Explore the data</button><button class="btn ghost" id="dlCsv">Download rankings CSV</button></div>
+  </div>
+  <div class="grid g5" id="kpis" style="margin-top:14px"></div>
+
+  <div class="sec">The answer in one minute</div>
+  <div class="grid g4" id="steps"></div>
+
+  <div class="sec" id="toplists">Final rankings</div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="row2"><div><div class="eyebrow">List 01</div><h3>Top 10 batters under pressure</h3></div><button class="btn" data-copy="bat">Copy names</button></div>
+      <div class="hr"></div><div class="pill-list" id="listBat"></div>
+    </div>
+    <div class="card">
+      <div class="row2"><div><div class="eyebrow" style="color:var(--gold)">List 02</div><h3>Top 10 bowlers under pressure</h3></div><button class="btn alt" data-copy="bowl">Copy names</button></div>
+      <div class="hr"></div><div class="pill-list" id="listBowl"></div>
+    </div>
+  </div>
+
+  <div class="sec">What it means for Rajasthan Royals</div>
+  <div class="grid g3" id="rrSnap"></div>
+  <div class="card" style="margin-top:14px" id="planSnap"></div>
+
+  <div class="sec">Where to find each part of the submission</div>
+  <div class="card pad0"><div class="scroll" style="max-height:none"><table id="guide"></table></div></div>
+</section>
+
+<!-- 2 LAB -->
+<section class="view" id="v-lab">
+  <div class="card">
+    <div class="flex" style="justify-content:space-between">
+      <div class="flex">
+        <select id="labRole"><option value="bat">Batters</option><option value="bowl">Bowlers</option></select>
+        <select id="labFilter"><option value="top10">Final top 10</option><option value="all">Full shortlist</option><option value="target">Auction &amp; value targets</option></select>
+        <input type="search" id="labSearch" placeholder="Search player…">
+      </div>
+      <div class="small" id="labCount"></div>
+    </div>
+  </div>
+  <div class="two" style="margin-top:14px">
+    <div class="card pad0"><div class="scroll" style="max-height:780px"><table id="labTable"></table></div></div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <div class="card" id="labChartCard"><h3 id="labChartTitle"></h3><div class="sub" id="labChartSub"></div><div id="labChart" style="margin-top:8px"></div></div>
+      <div class="card drawer" id="drawer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 ENGINE -->
+<section class="view" id="v-engine">
+  <div class="grid g4" id="engKpis"></div>
+  <div class="card" style="margin-top:14px">
+    <div class="row2" style="align-items:flex-start;flex-wrap:wrap">
+      <div><div class="eyebrow">Interactive</div><h2 style="font-size:18px">Royals Pressure Index (RPI) calculator</h2><div class="sub">Set a match state. P<sub>t</sub> ∈ [0,1], and a ball counts as high-pressure at P<sub>t</sub> ≥ 0.62.</div></div>
+      <div class="flex" style="gap:14px"><div><div class="small">Computed P<sub>t</sub></div><div class="big mono" id="ptv" style="color:var(--pink2)">0.00</div></div><span class="chip pink" id="ptb">…</span></div>
+    </div>
+    <div class="flex" style="margin-top:12px" id="presets"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div style="display:grid;gap:12px">
+        <label><div class="row2 small"><span>Innings</span><b id="lInn" class="mono"></b></div><select id="sInn" style="width:100%"><option value="2">Innings 2: chasing</option><option value="1">Innings 1: setting</option></select></label>
+        <label><div class="row2 small"><span>Legal balls elapsed</span><b id="lB" class="mono"></b></div><input type="range" id="sB" min="6" max="119" value="96"></label>
+        <label><div class="row2 small"><span id="lRlab">Required run rate</span><b id="lR" class="mono"></b></div><input type="range" id="sR" min="5" max="20" step="0.25" value="12.5"></label>
+        <label><div class="row2 small"><span>Wickets down</span><b id="lW" class="mono"></b></div><input type="range" id="sW" min="0" max="9" value="4"></label>
+        <div class="grid g2"><label><div class="small">Wickets in last 12 balls</div><select id="sW12" style="width:100%"><option value="0">0 · stable</option><option value="1" selected>1 · new batter</option><option value="2">2+ · collapse</option></select></label>
+        <label><div class="small">Fixture</div><select id="sKo" style="width:100%"><option value="0">League</option><option value="1">Knockout</option></select></label></div>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <div id="subs"></div>
+        <div id="curve"></div>
+        <div class="note" id="rec"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Where high-pressure balls occur</h3><div class="sub">Share of deliveries with P<sub>t</sub> ≥ 0.62, by over, computed on all balls</div><div id="hpOver" style="margin-top:8px"></div></div>
+    <div class="card"><h3>Does the index separate pressure from ordinary play?</h3><div class="sub">High-pressure vs all other legal deliveries</div><div id="valTable" style="margin-top:10px"></div><div class="hr"></div><div id="hist"></div></div>
+  </div>
+</section>
+
+<!-- 4 DIAGNOSIS -->
+<section class="view" id="v-diagnosis">
+  <div class="note ok">Every figure on this page is recomputed from <span class="mono">ball_by_ball.csv</span>.</div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card" style="border-top:3px solid var(--red)">
+      <div class="eyebrow" style="color:var(--red)">Flaw 01 · Overs 7–15</div><h3 style="margin-top:4px">Middle-overs bowling leak</h3>
+      <p class="sub">IPL 2025 bowling average in overs 7–15, by team (runs conceded ÷ wickets).</p>
+      <div id="midBars" style="margin-top:10px"></div>
+      <div class="hr"></div><div id="flaw1"></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold)">
+      <div class="eyebrow" style="color:var(--gold)">Flaw 02 · Positions 4–8</div><h3 style="margin-top:4px">Collapse behind the top three</h3>
+      <p class="sub">RR batting average by batting position group.</p>
+      <div id="posBars" style="margin-top:10px"></div>
+      <div class="hr"></div><div id="flaw2"></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--pink)">
+      <div class="eyebrow">Flaw 03 · Backup seam</div><h3 style="margin-top:4px">Domestic pace in IPL 2026</h3>
+      <p class="sub">Season economy vs worst single-match economy (bowlers with at least 6 balls in a match).</p>
+      <div id="paceBars" style="margin-top:10px"></div>
+      <div class="hr"></div><div id="flaw3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 AUCTION -->
+<section class="view" id="v-auction">
+  <div class="grid g3" id="aucKpis"></div>
+  <div class="note ok" style="margin-top:14px">Built on the <b>official retention and release list of 17 Nov 2026</b>. RR enter the Goa auction on 16 Dec with ₹27.05 Cr and six slots to fill (three overseas). Bid costs on the target cards are planning estimates, not forecasts of final prices.</div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <div class="row2"><div><div class="eyebrow">Step 1</div><h3>Official releases and trades</h3></div><div class="big mono" id="freed" style="color:var(--green)"></div></div>
+      <div class="sub">RR released nine players and traded for Shami and Siddharth (Curran went to LSG). The purse is the official figure; contract values shown are from public reports.</div>
+      <div class="scroll" style="max-height:none;margin-top:8px"><table id="relTable"></table></div>
+    </div>
+    <div class="card">
+      <div class="row2"><div><div class="eyebrow">Step 2</div><h3>Rebuild with value targets</h3></div><div class="right"><div class="small">Remaining purse</div><div class="big mono" id="remain"></div></div></div>
+      <div class="bar" style="margin-top:10px"><i id="purseBar" style="background:linear-gradient(90deg,#ea1a85,#fbbf24)"></i></div>
+      <div class="small" id="purseTxt" style="margin-top:6px"></div>
+      <div class="hr"></div>
+      <div class="small">Squad needs (six open slots, three overseas, and the diagnosis)</div>
+      <div class="pill-list" id="needs" style="margin-top:8px"></div>
+    </div>
+  </div>
+  <div class="grid g3" id="picks" style="margin-top:14px"></div>
+  <div class="card" style="margin-top:14px">
+    <h3>Re-engineered playing XII</h3>
+    <div class="sub">Locked core stays; buckets fill the gaps.</div>
+    <div class="grid g2" id="xii" style="margin-top:10px"></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>Sources</h3><div class="pill-list" id="aucSources" style="margin-top:8px"></div></div>
+</section>
+
+<!-- 6 CROSS-CHECK -->
+<section class="view" id="v-cross">
+  <div class="note warn" id="crossNote"></div>
+  <div class="grid g4" style="margin-top:14px" id="xKpis"></div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Alternative definition: top batters</h3><div class="sub">Pressure = win-probability leverage; two lenses blended (all high-leverage balls + chases)</div><div class="scroll" style="max-height:none"><table id="myBat"></table></div></div>
+    <div class="card"><h3>Alternative definition: top bowlers</h3><div class="sub">Same method, bowling values</div><div class="scroll" style="max-height:none"><table id="myBowl"></table></div></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Final picks under the alternative definition</h3><div class="sub">Rank of each pick under the independent model (lower is better). n/a means too few high-leverage balls in the alternative model.</div><div class="scroll" style="max-height:none"><table id="xBat"></table></div><div class="hr"></div><div class="scroll" style="max-height:none"><table id="xBowl"></table></div></div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <div class="card"><h3>How stable is a top 10?</h3><div class="sub">Overlap with the base top 10 when one setting changes (out of 10)</div><div id="sens" style="margin-top:8px"></div></div>
+      <div class="card"><h3>How much of pressure skill is real signal?</h3><div class="sub">Split-half reliability (Spearman-Brown) of each rating component, measured across random halves of matches</div><div id="rel" style="margin-top:8px"></div></div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Leverage by over</h3><div class="sub">Average leverage index (1.0 = average delivery) from the win-probability model</div><div id="liChart" style="margin-top:8px"></div></div>
+    <div class="card"><h3>Win-probability calibration</h3><div class="sub">Predicted vs actual win rate, out-of-fold by match. The dotted diagonal is perfect.</div><div id="calChart" style="margin-top:8px"></div><div class="hr"></div><div id="tierTable"></div></div>
+  </div>
+</section>
+
+<!-- 7 AUDIT -->
+<section class="view" id="v-audit">
+  <div class="grid g4" id="audKpis"></div>
+  <div class="card" style="margin-top:14px">
+    <h3>Reproduction check</h3><div class="sub">Every headline figure in the analysis, recomputed from the supplied ball-by-ball data. Where a recomputed value differs, the recomputed value is the one used here.</div>
+    <div class="flex" style="margin-top:10px"><select id="audFilter"><option value="all">All</option><option value="ok">Matches</option><option value="warn">Close</option><option value="bad">Corrected here</option><option value="info">Not reproduced</option></select></div>
+    <div class="scroll" style="max-height:640px;margin-top:8px"><table id="audTable"></table></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Schema decode: <span class="mono">extras1_runs</span></h3><div class="sub">It is a code for the extras type. It is not a run count.</div><div class="scroll" style="max-height:none"><table id="schema"></table></div><div class="hr"></div><div class="note">Byes and leg-byes carry no run value in the file. Wide overthrows are also missing. Team totals are rebuilt from the extras codes and reconciled to match results, so they can be off by a few runs.</div></div>
+    <div class="card"><h3>Method in one page</h3><div class="pill-list" id="method" style="margin-top:10px"></div></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>Known limitations</h3><div class="pill-list" id="limits" style="margin-top:10px"></div></div>
+</section>
+
+</main>
+<footer>SupeRR Selector Season 2 · Round 1 · Prashi Jain, IIT Madras (Data Science) · Built from the supplied IPL and T20I ball-by-ball data, 2022–2026 · Validated <span id="stamp"></span></footer>
+
+<script>
+const DATA = {"li_over":{"1":[1.08,1.02,1.0,0.88,0.88,0.87,0.68,0.67,0.66,0.62,0.6,0.6,0.67,0.71,0.72,0.67,0.73,0.76,0.91,1.03],"2":[1.81,1.58,1.39,1.27,1.35,1.3,1.01,1.0,1.0,1.0,1.01,0.99,0.97,0.94,1.05,1.14,1.17,1.24,1.63,2.47]},"tiers":[{"tier":"ordinary","n":88252,"li":0.36,"rpb":1.435,"wk":5.5,"dot":37.7},{"tier":"elevated","n":35302,"li":0.91,"rpb":1.41,"wk":4.93,"dot":39.2},{"tier":"high","n":44124,"li":1.7,"rpb":1.367,"wk":5.08,"dot":41.9},{"tier":"extreme","n":8826,"li":4.26,"rpb":1.446,"wk":6.73,"dot":40.9}],"calib":[{"p":0.029,"y":0.058,"n":22036},{"p":0.151,"y":0.198,"n":11610},{"p":0.252,"y":0.253,"n":13287},{"p":0.352,"y":0.378,"n":17000},{"p":0.453,"y":0.439,"n":23258},{"p":0.548,"y":0.546,"n":26327},{"p":0.648,"y":0.662,"n":21681},{"p":0.747,"y":0.727,"n":13384},{"p":0.848,"y":0.785,"n":9166},{"p":0.973,"y":0.932,"n":18755}],"model":{"matches":738,"balls":176504,"ipl":357,"t20i":381,"auc":0.802,"auc1":0.69,"auc2":0.889,"logloss":0.537,"brier":0.1815,"rel_all":{"bat":[0.46,0.19,0.26],"bowl":[0.15,-0.03,0.16]},"rel_chase":{"bat":[0.35,0.13,0.22],"bowl":[0.35,0.16,0.36]},"sens":{"bat":{"P60":7,"P80":6,"No clipping":8,"Wider baseline":10,"Chase only":5},"bowl":{"P60":8,"P80":7,"No clipping":9,"Wider baseline":10,"Chase only":5}},"cut":{"p50":0.73,"p70":1.15,"p95":2.78}},"my_bat":[{"rank":1,"name":"Yashasvi Jaiswal","score":2.654,"score_all":2.442,"score_chase":2.865,"p_top10":0.988,"rank_lo":1.0,"rank_hi":6.0,"nH":598.0,"nH_ch":556.0,"mH":0.563,"mO":-0.071,"mH_ch":0.607,"pC":0.737,"nH_ipl":514.0,"nH_t20i":84.0,"mH_ipl":0.566,"mH_t20i":0.541,"SR_H":169.231,"SR_O":143.674,"avg_H":29.765},{"rank":2,"name":"Phil Salt","score":2.619,"score_all":2.829,"score_chase":2.408,"p_top10":0.955,"rank_lo":1.0,"rank_hi":7.0,"nH":528.0,"nH_ch":475.0,"mH":0.737,"mO":0.326,"mH_ch":0.577,"pC":0.75,"nH_ipl":227.0,"nH_t20i":301.0,"mH_ipl":0.765,"mH_t20i":0.716,"SR_H":171.591,"SR_O":177.586,"avg_H":43.143},{"rank":3,"name":"Abhishek Sharma","score":2.086,"score_all":2.475,"score_chase":1.698,"p_top10":0.757,"rank_lo":1.0,"rank_hi":19.0,"nH":760.0,"nH_ch":587.0,"mH":0.697,"mO":0.721,"mH_ch":0.475,"pC":0.588,"nH_ipl":452.0,"nH_t20i":308.0,"mH_ipl":0.466,"mH_t20i":1.036,"SR_H":174.079,"SR_O":202.804,"avg_H":34.816},{"rank":4,"name":"Vaibhav Sooryavanshi","score":1.98,"score_all":2.14,"score_chase":1.82,"p_top10":0.733,"rank_lo":2.0,"rank_hi":19.1,"nH":205.0,"nH_ch":163.0,"mH":0.944,"mO":1.016,"mH_ch":0.907,"pC":0.693,"nH_ipl":161.0,"nH_t20i":44.0,"mH_ipl":0.879,"mH_t20i":1.183,"SR_H":207.317,"SR_O":241.176,"avg_H":47.222},{"rank":5,"name":"Suryakumar Yadav","score":1.704,"score_all":1.157,"score_chase":2.251,"p_top10":0.623,"rank_lo":3.0,"rank_hi":20.0,"nH":724.0,"nH_ch":622.0,"mH":0.35,"mO":0.304,"mH_ch":0.531,"pC":0.546,"nH_ipl":388.0,"nH_t20i":336.0,"mH_ipl":0.368,"mH_t20i":0.329,"SR_H":158.564,"SR_O":169.42,"avg_H":31.889},{"rank":6,"name":"Josh Inglis","score":1.647,"score_all":1.477,"score_chase":1.817,"p_top10":0.603,"rank_lo":3.0,"rank_hi":20.0,"nH":263.0,"nH_ch":219.0,"mH":0.503,"mO":-0.113,"mH_ch":0.649,"pC":0.656,"nH_ipl":88.0,"nH_t20i":175.0,"mH_ipl":0.816,"mH_t20i":0.346,"SR_H":166.54,"SR_O":155.236,"avg_H":39.818},{"rank":7,"name":"Reeza Hendricks","score":1.57,"score_all":1.645,"score_chase":1.496,"p_top10":0.51,"rank_lo":3.0,"rank_hi":24.1,"nH":290.0,"nH_ch":265.0,"mH":0.556,"mO":0.022,"mH_ch":0.502,"pC":0.654,"nH_ipl":null,"nH_t20i":290.0,"mH_ipl":null,"mH_t20i":0.556,"SR_H":162.069,"SR_O":138.801,"avg_H":58.75},{"rank":8,"name":"Mitchell Marsh","score":1.554,"score_all":1.893,"score_chase":1.215,"p_top10":0.578,"rank_lo":3.0,"rank_hi":23.1,"nH":577.0,"nH_ch":534.0,"mH":0.472,"mO":0.018,"mH_ch":0.289,"pC":0.667,"nH_ipl":293.0,"nH_t20i":284.0,"mH_ipl":0.428,"mH_t20i":0.519,"SR_H":152.686,"SR_O":160.393,"avg_H":44.05},{"rank":9,"name":"Cameron Green","score":1.469,"score_all":1.459,"score_chase":1.478,"p_top10":0.475,"rank_lo":4.0,"rank_hi":31.1,"nH":367.0,"nH_ch":311.0,"mH":0.447,"mO":-0.005,"mH_ch":0.466,"pC":0.632,"nH_ipl":206.0,"nH_t20i":161.0,"mH_ipl":0.279,"mH_t20i":0.663,"SR_H":158.038,"SR_O":154.713,"avg_H":58.0},{"rank":10,"name":"Pathum Nissanka","score":1.331,"score_all":0.517,"score_chase":2.144,"p_top10":0.44,"rank_lo":5.0,"rank_hi":29.0,"nH":688.0,"nH_ch":639.0,"mH":0.153,"mO":0.03,"mH_ch":0.461,"pC":0.58,"nH_ipl":121.0,"nH_t20i":567.0,"mH_ipl":0.451,"mH_t20i":0.089,"SR_H":130.378,"SR_O":136.04,"avg_H":35.88},{"rank":11,"name":"Ryan Rickelton","score":1.287,"score_all":1.214,"score_chase":1.36,"p_top10":0.445,"rank_lo":4.0,"rank_hi":33.0,"nH":323.0,"nH_ch":312.0,"mH":0.392,"mO":-0.122,"mH_ch":0.378,"pC":0.622,"nH_ipl":193.0,"nH_t20i":130.0,"mH_ipl":0.77,"mH_t20i":-0.169,"SR_H":151.703,"SR_O":163.487,"avg_H":44.545},{"rank":12,"name":"Prabhsimran Singh","score":1.204,"score_all":1.534,"score_chase":0.874,"p_top10":0.362,"rank_lo":6.0,"rank_hi":29.1,"nH":450.0,"nH_ch":407.0,"mH":0.403,"mO":-0.255,"mH_ch":0.221,"pC":0.652,"nH_ipl":450.0,"nH_t20i":null,"mH_ipl":0.403,"mH_t20i":null,"SR_H":160.444,"SR_O":155.398,"avg_H":42.471},{"rank":13,"name":"Virat Kohli","score":1.202,"score_all":1.468,"score_chase":0.936,"p_top10":0.372,"rank_lo":5.0,"rank_hi":30.0,"nH":654.0,"nH_ch":588.0,"mH":0.334,"mO":-0.122,"mH_ch":0.198,"pC":0.642,"nH_ipl":551.0,"nH_t20i":103.0,"mH_ipl":0.449,"mH_t20i":-0.28,"SR_H":147.554,"SR_O":143.197,"avg_H":64.333},{"rank":14,"name":"Heinrich Klaasen","score":1.074,"score_all":1.012,"score_chase":1.137,"p_top10":0.26,"rank_lo":7.0,"rank_hi":32.0,"nH":311.0,"nH_ch":220.0,"mH":0.383,"mO":0.191,"mH_ch":0.471,"pC":0.572,"nH_ipl":253.0,"nH_t20i":58.0,"mH_ipl":0.407,"mH_t20i":0.281,"SR_H":177.492,"SR_O":157.794,"avg_H":46.0},{"rank":15,"name":"Sanju Samson","score":1.048,"score_all":1.026,"score_chase":1.07,"p_top10":0.253,"rank_lo":7.0,"rank_hi":39.0,"nH":544.0,"nH_ch":455.0,"mH":0.289,"mO":0.045,"mH_ch":0.272,"pC":0.586,"nH_ipl":336.0,"nH_t20i":208.0,"mH_ipl":0.386,"mH_t20i":0.133,"SR_H":149.816,"SR_O":156.597,"avg_H":35.435}],"my_bat_n":87,"rank_map_bat":{"Yashasvi Jaiswal":1,"Phil Salt":2,"Abhishek Sharma":3,"Vaibhav Sooryavanshi":4,"Suryakumar Yadav":5,"Josh Inglis":6,"Reeza Hendricks":7,"Mitchell Marsh":8,"Cameron Green":9,"Pathum Nissanka":10,"Ryan Rickelton":11,"Prabhsimran Singh":12,"Virat Kohli":13,"Heinrich Klaasen":14,"Sanju Samson":15,"William Jacks":16,"Nicholas Pooran":17,"Glenn Maxwell":18,"Daryl Mitchell":19,"Sai Sudharsan":20,"Shubman Gill":21,"David Warner":22,"Quinton de Kock":23,"Rinku Singh":24,"Marcus Stoinis":25,"Rovman Powell":26,"Tim David":27,"Travis Head":28,"Harry Brook":29,"Devdutt Padikkal":30,"Venkatesh Iyer":31,"Fakhar Zaman":32,"Sahibzada Farhan":33,"Rachin Ravindra":34,"Namboori Tilak Varma":35,"Shreyas Iyer":36,"Dasun Shanaka":37,"Rohit Sharma":38,"Liton Das":39,"Riyan Parag":40,"Ryan Burl":41,"Ajinkya Rahane":42,"Kyle Mayers":43,"Shai Hope":44,"Ishan Kishan":45,"Dhruv Jurel":46,"Jitesh Sharma":47,"Rahul Tewatia":48,"Kusal Mendis":49,"Finn Allen":50,"Saim Ayub":51,"Wriddhiman Saha":52,"Sikandar Raza":53,"Mohammad Rizwan":54,"Sam Curran":55,"Lokesh Rahul":56,"Liam Livingstone":57,"David Miller":58,"Ruturaj Gaikwad":59,"Krunal Pandya":60,"Jos Buttler":61,"Shivam Dube":62,"Hardik Pandya":63,"Devon Conway":64,"Rahul Tripathi":65,"Towhid Hridoy":66,"Faf du Plessis":67,"Tristan Stubbs":68,"Ayush Badoni":69,"Tanzid Hasan":70,"Jonny Bairstow":71,"Deepak Hooda":72,"Nitish Rana":73,"Ibrahim Zadran":74,"Shimron Hetmyer":75,"Brian Bennett":76,"Axar Patel":77,"Rishabh Pant":78,"Ravindra Jadeja":79,"Tadiwanashe Marumani":80,"Paul Stirling":81,"Rahmanullah Gurbaz":82,"Aiden Markram":83,"Sherfane Rutherford":84,"Babar Azam":85,"Brandon King":86,"Andrew Balbirnie":87},"my_bowl":[{"rank":1,"name":"Varun Chakravarthy","score":2.077,"score_all":2.219,"score_chase":1.936,"p_top10":0.853,"rank_lo":1.0,"rank_hi":13.0,"nH":591.0,"nH_ch":521.0,"mH":0.36,"mO":0.096,"mH_ch":0.421,"pC":0.641,"nH_ipl":426.0,"nH_t20i":165.0,"mH_ipl":0.328,"mH_t20i":0.444,"Econ_H":7.428,"Econ_O":8.406,"Wkts_H":34.0},{"rank":2,"name":"Sunil Narine","score":1.726,"score_all":1.938,"score_chase":1.514,"p_top10":0.698,"rank_lo":1.0,"rank_hi":20.0,"nH":427.0,"nH_ch":415.0,"mH":0.35,"mO":0.351,"mH_ch":0.352,"pC":0.689,"nH_ipl":427.0,"nH_t20i":null,"mH_ipl":0.35,"mH_t20i":null,"Econ_H":6.681,"Econ_O":6.543,"Wkts_H":21.0},{"rank":3,"name":"Kuldeep Yadav","score":1.719,"score_all":2.051,"score_chase":1.388,"p_top10":0.72,"rank_lo":1.9,"rank_hi":19.0,"nH":415.0,"nH_ch":365.0,"mH":0.426,"mO":0.118,"mH_ch":0.334,"pC":0.647,"nH_ipl":310.0,"nH_t20i":105.0,"mH_ipl":0.404,"mH_t20i":0.493,"Econ_H":7.15,"Econ_O":8.483,"Wkts_H":26.0},{"rank":4,"name":"Lockie Ferguson","score":1.624,"score_all":1.916,"score_chase":1.332,"p_top10":0.623,"rank_lo":1.0,"rank_hi":28.0,"nH":344.0,"nH_ch":283.0,"mH":0.467,"mO":-0.079,"mH_ch":0.375,"pC":0.636,"nH_ipl":199.0,"nH_t20i":145.0,"mH_ipl":0.38,"mH_t20i":0.586,"Econ_H":7.591,"Econ_O":9.279,"Wkts_H":29.0},{"rank":5,"name":"Gudakesh Motie","score":1.516,"score_all":1.548,"score_chase":1.484,"p_top10":0.552,"rank_lo":2.0,"rank_hi":28.0,"nH":252.0,"nH_ch":215.0,"mH":0.395,"mO":0.057,"mH_ch":0.447,"pC":0.688,"nH_ipl":null,"nH_t20i":252.0,"mH_ipl":null,"mH_t20i":0.395,"Econ_H":7.234,"Econ_O":8.225,"Wkts_H":12.0},{"rank":6,"name":"Wanindu Hasaranga","score":1.473,"score_all":1.866,"score_chase":1.08,"p_top10":0.482,"rank_lo":3.0,"rank_hi":28.0,"nH":460.0,"nH_ch":419.0,"mH":0.323,"mO":0.19,"mH_ch":0.25,"pC":0.672,"nH_ipl":195.0,"nH_t20i":265.0,"mH_ipl":0.124,"mH_t20i":0.469,"Econ_H":7.789,"Econ_O":7.783,"Wkts_H":37.0},{"rank":7,"name":"Mitchell Santner","score":1.404,"score_all":1.031,"score_chase":1.778,"p_top10":0.527,"rank_lo":2.0,"rank_hi":34.0,"nH":364.0,"nH_ch":354.0,"mH":0.263,"mO":0.08,"mH_ch":0.465,"pC":0.523,"nH_ipl":149.0,"nH_t20i":215.0,"mH_ipl":-0.028,"mH_t20i":0.464,"Econ_H":7.597,"Econ_O":7.662,"Wkts_H":22.0},{"rank":8,"name":"Krunal Pandya","score":1.301,"score_all":1.287,"score_chase":1.316,"p_top10":0.39,"rank_lo":4.0,"rank_hi":30.1,"nH":300.0,"nH_ch":313.0,"mH":0.308,"mO":0.092,"mH_ch":0.333,"pC":0.621,"nH_ipl":300.0,"nH_t20i":null,"mH_ipl":0.308,"mH_t20i":null,"Econ_H":6.687,"Econ_O":8.372,"Wkts_H":12.0},{"rank":9,"name":"Jasprit Bumrah","score":1.283,"score_all":1.462,"score_chase":1.105,"p_top10":0.385,"rank_lo":3.0,"rank_hi":34.0,"nH":567.0,"nH_ch":427.0,"mH":0.232,"mO":0.427,"mH_ch":0.259,"pC":0.588,"nH_ipl":414.0,"nH_t20i":153.0,"mH_ipl":0.181,"mH_t20i":0.368,"Econ_H":7.299,"Econ_O":6.798,"Wkts_H":23.0},{"rank":10,"name":"Blessing Muzarabani","score":1.236,"score_all":1.694,"score_chase":0.778,"p_top10":0.415,"rank_lo":3.0,"rank_hi":40.0,"nH":309.0,"nH_ch":213.0,"mH":0.424,"mO":0.185,"mH_ch":0.297,"pC":0.644,"nH_ipl":15.0,"nH_t20i":294.0,"mH_ipl":-0.405,"mH_t20i":0.467,"Econ_H":7.096,"Econ_O":8.016,"Wkts_H":19.0},{"rank":11,"name":"Rashid Khan","score":1.172,"score_all":1.145,"score_chase":1.199,"p_top10":0.312,"rank_lo":5.0,"rank_hi":33.0,"nH":573.0,"nH_ch":518.0,"mH":0.193,"mO":0.257,"mH_ch":0.288,"pC":0.532,"nH_ipl":367.0,"nH_t20i":206.0,"mH_ipl":0.154,"mH_t20i":0.263,"Econ_H":7.5,"Econ_O":7.343,"Wkts_H":26.0},{"rank":12,"name":"Josh Hazlewood","score":1.091,"score_all":1.024,"score_chase":1.159,"p_top10":0.338,"rank_lo":4.0,"rank_hi":45.0,"nH":484.0,"nH_ch":396.0,"mH":0.196,"mO":-0.013,"mH_ch":0.231,"pC":0.528,"nH_ipl":312.0,"nH_t20i":172.0,"mH_ipl":-0.024,"mH_t20i":0.596,"Econ_H":8.004,"Econ_O":8.867,"Wkts_H":36.0},{"rank":13,"name":"Adil Rashid","score":1.064,"score_all":0.889,"score_chase":1.239,"p_top10":0.347,"rank_lo":3.0,"rank_hi":45.1,"nH":243.0,"nH_ch":202.0,"mH":0.249,"mO":0.051,"mH_ch":0.421,"pC":0.582,"nH_ipl":8.0,"nH_t20i":235.0,"mH_ipl":-1.528,"mH_t20i":0.31,"Econ_H":7.718,"Econ_O":7.891,"Wkts_H":10.0},{"rank":14,"name":"Kagiso Rabada","score":1.026,"score_all":0.637,"score_chase":1.415,"p_top10":0.265,"rank_lo":5.0,"rank_hi":46.1,"nH":549.0,"nH_ch":373.0,"mH":0.109,"mO":0.008,"mH_ch":0.319,"pC":0.489,"nH_ipl":405.0,"nH_t20i":144.0,"mH_ipl":0.107,"mH_t20i":0.115,"Econ_H":8.182,"Econ_O":10.197,"Wkts_H":33.0},{"rank":15,"name":"Sikandar Raza","score":1.025,"score_all":0.993,"score_chase":1.057,"p_top10":0.215,"rank_lo":7.0,"rank_hi":34.0,"nH":264.0,"nH_ch":246.0,"mH":0.241,"mO":0.115,"mH_ch":0.319,"pC":0.609,"nH_ipl":29.0,"nH_t20i":235.0,"mH_ipl":0.163,"mH_t20i":0.25,"Econ_H":6.444,"Econ_O":7.219,"Wkts_H":12.0}],"my_bowl_n":95,"rank_map_bowl":{"Varun Chakravarthy":1,"Sunil Narine":2,"Kuldeep Yadav":3,"Lockie Ferguson":4,"Gudakesh Motie":5,"Wanindu Hasaranga":6,"Mitchell Santner":7,"Krunal Pandya":8,"Jasprit Bumrah":9,"Blessing Muzarabani":10,"Rashid Khan":11,"Josh Hazlewood":12,"Adil Rashid":13,"Kagiso Rabada":14,"Sikandar Raza":15,"Yuzvendra Chahal":16,"Maheesh Theekshana":17,"Nathan Ellis":18,"Akeal Hosein":19,"Mahedi Hasan":20,"Mohammad Nawaz":21,"Noor Ahmad":22,"Moeen Ali":23,"Naveen ul Haq":24,"Jacob Duffy":25,"Mustafizur Rahman":26,"Matheesha Pathirana":27,"Ravindra Jadeja":28,"Taskin Ahmed":29,"Axar Patel":30,"Ravi Bishnoi":31,"Glenn Maxwell":32,"Mujeeb Ur Rahman":33,"Mohsin Khan":34,"FazalHaq Farooqi":35,"Reece Topley":36,"Lungi Ngidi":37,"Bhuvneshwar Kumar":38,"Haris Rauf":39,"Gerald Coetzee":40,"Avesh Khan":41,"Ravichandran Ashwin":42,"Sandeep Sharma":43,"Adam Zampa":44,"Prasidh Krishna":45,"Mohammad Rishad Hossain":46,"Yash Dayal":47,"Harpreet Brar":48,"Deepak Chahar":49,"Shadab Khan":50,"Shaheen Afridi":51,"Dushmantha Chameera":52,"Patrick Cummins":53,"Cameron Green":54,"Michael Bracewell":55,"T Natarajan":56,"Harshit Rana":57,"Mohammed Siraj":58,"Ish Sodhi":59,"Roston Chase":60,"Washington Sundar":61,"Eshan Malinga":62,"Mukesh Kumar":63,"Harshal Patel":64,"Trent Boult":65,"Mohammad Nabi":66,"Marcus Stoinis":67,"Nandre Burger":68,"Rahul Chahar":69,"Anrich Nortje":70,"Prince Yadav":71,"Mukesh Choudhary":72,"Matt Henry":73,"Tushar Deshpande":74,"Khaleel Ahmed":75,"Richard Ngarava":76,"Mohammed Shami":77,"Jaydev Unadkat":78,"Jason Holder":79,"Jofra Archer":80,"Sam Curran":81,"Azmatullah Omarzai":82,"Shardul Thakur":83,"Obed McCoy":84,"Shahbaz Ahmed":85,"Adam Milne":86,"Tim Southee":87,"Arshdeep Singh":88,"Hardik Pandya":89,"Romario Shepherd":90,"Andre Russell":91,"Alzarri Joseph":92,"Marco Jansen":93,"Mitchell Starc":94,"Vaibhav Arora":95},"cross_bat":{"Shashank Singh":{"rank":null,"why":"140 high-leverage balls in my universe; not eligible on both lenses"},"Naman Dhir":{"rank":null,"why":"133 high-leverage balls in my universe; not eligible on both lenses"},"Tim David":{"rank":27,"of":87,"why":""},"Tristan Stubbs":{"rank":68,"of":87,"why":""},"Rinku Singh":{"rank":24,"of":87,"why":""},"Ashutosh Sharma":{"rank":null,"why":"113 high-leverage balls in my universe; not eligible on both lenses"},"Namboori Tilak Varma":{"rank":35,"of":87,"why":""},"Shivam Dube":{"rank":62,"of":87,"why":""},"Suryakumar Yadav":{"rank":5,"of":87,"why":""},"Nicholas Pooran":{"rank":17,"of":87,"why":""}},"cross_bowl":{"Mitchell Starc":{"rank":94,"of":95,"why":""},"Jamie Overton":{"rank":null,"why":"121 high-leverage balls in my universe; not eligible on both lenses"},"Sunil Narine":{"rank":2,"of":95,"why":""},"Varun Chakravarthy":{"rank":1,"of":95,"why":""},"Kuldeep Yadav":{"rank":3,"of":95,"why":""},"Jofra Archer":{"rank":80,"of":95,"why":""},"Mohit Sharma":{"rank":null,"why":"163 high-leverage balls in my universe; not eligible on both lenses"},"Jasprit Bumrah":{"rank":9,"of":95,"why":""},"Rashid Khan":{"rank":11,"of":95,"why":""},"Rasikh Salam":{"rank":null,"why":"100 high-leverage balls in my universe; not eligible on both lenses"}},"team_mid":[{"team":"Rajasthan Royals","avg":48.83,"rr":true},{"team":"Lucknow Super Giants","avg":37.28,"rr":false},{"team":"Delhi Capitals","avg":35.13,"rr":false},{"team":"Gujarat Titans","avg":34.69,"rr":false},{"team":"Punjab Kings","avg":31.68,"rr":false},{"team":"Kolkata Knight Riders","avg":31.35,"rr":false},{"team":"Royal Challengers Bengaluru","avg":30.89,"rr":false},{"team":"Sunrisers Hyderabad","avg":30.81,"rr":false},{"team":"Chennai Super Kings","avg":30.5,"rr":false},{"team":"Mumbai Indians","avg":25.58,"rr":false}],"audit":{"hp_share":0.33331840506366905,"hp_n":66984,"n":200961,"wk_rate_hp":0.07239202293484562,"wk_rate_base":0.04813647723568402,"rpb_hp":1.3993232340638855,"rpb_base":1.4196535291287002,"dot_hp":0.36130214779189446,"dot_base":0.3753046366867947,"hp_by_over":[0.0012059369202226345,0.01835372636262514,0.05410991075622358,0.06909193457416808,0.08657560056523787,0.1156327072661734,0.14174887462886696,0.17029400534555172,0.21228996639462314,0.2612543285879184,0.31253028394224247,0.35868929198361615,0.40941638057871504,0.46381839809674863,0.5334341906202723,0.5984324104234527,0.6891072548609659,0.7868995633187773,0.8732836862927624,0.9444596443228455],"hp_by_over_inn":{"1":[0.0,0.0,0.021363551922719673,0.025297619047619048,0.027850467289719627,0.0358550779050122,0.04053798067815874,0.0524132730015083,0.07597574838954149,0.10428868316644625,0.12577903682719546,0.15875427269274592,0.20334156066071768,0.25616988712454564,0.3477421844847549,0.45600305401794233,0.5917631429113683,0.7559341500765697,0.8718881654538491,0.942057942057942],"2":[0.0024546827794561933,0.03714124929656725,0.08760927404028887,0.11383504370961611,0.1462488129154796,0.19712368168744007,0.24525377760557923,0.29118329466357307,0.3523457270780611,0.4240642759161278,0.5093550955414012,0.5697674418604651,0.6296672077922078,0.6871014194610162,0.7367420240862033,0.7611777535441657,0.8084710262974169,0.8279979674796748,0.8754448398576512,0.9496746203904556]},"hp_by_stage":{"Knockout":0.386,"League":0.331},"pt_hist":[2,1159,3440,15722,7519,13089,17045,14195,14824,14862,13804,13180,12846,12337,10453,8963,7485,7614,6444,5978],"audit":[{"name":"Shashank Singh","role":"bat","hpBalls":378,"hpSR":176.5,"baseSR":130.8,"hpAvg":47.6,"pos":6.0},{"name":"Naman Dhir","role":"bat","hpBalls":232,"hpSR":205.2,"baseSR":144.5,"hpAvg":31.7,"pos":5.2},{"name":"Tim David","role":"bat","hpBalls":694,"hpSR":183.6,"baseSR":169.9,"hpAvg":38.6,"pos":5.8},{"name":"Tristan Stubbs","role":"bat","hpBalls":670,"hpSR":159.1,"baseSR":133.8,"hpAvg":44.4,"pos":5.4},{"name":"Rinku Singh","role":"bat","hpBalls":685,"hpSR":167.7,"baseSR":135.1,"hpAvg":38.3,"pos":5.7},{"name":"Ashutosh Sharma","role":"bat","hpBalls":324,"hpSR":170.1,"baseSR":118.2,"hpAvg":27.6,"pos":7.1},{"name":"Namboori Tilak Varma","role":"bat","hpBalls":897,"hpSR":153.5,"baseSR":137.1,"hpAvg":32.0,"pos":4.4},{"name":"Shivam Dube","role":"bat","hpBalls":692,"hpSR":151.4,"baseSR":156.3,"hpAvg":31.8,"pos":5.2},{"name":"Suryakumar Yadav","role":"bat","hpBalls":678,"hpSR":170.4,"baseSR":165.0,"hpAvg":44.4,"pos":3.6},{"name":"Nicholas Pooran","role":"bat","hpBalls":647,"hpSR":158.7,"baseSR":156.3,"hpAvg":33.1,"pos":4.1},{"name":"Marcus Stoinis","role":"bat","hpBalls":565,"hpSR":167.3,"baseSR":142.2,"hpAvg":27.0,"pos":5.2},{"name":"David Miller","role":"bat","hpBalls":795,"hpSR":157.4,"baseSR":136.1,"hpAvg":37.9,"pos":5.2},{"name":"Ravindra Jadeja","role":"bat","hpBalls":663,"hpSR":140.7,"baseSR":122.4,"hpAvg":33.3,"pos":5.9},{"name":"Dhruv Jurel","role":"bat","hpBalls":436,"hpSR":161.5,"baseSR":139.0,"hpAvg":29.3,"pos":5.0},{"name":"M Shahrukh Khan","role":"bat","hpBalls":242,"hpSR":162.4,"baseSR":136.3,"hpAvg":20.7,"pos":6.1},{"name":"Liam Livingstone","role":"bat","hpBalls":450,"hpSR":161.1,"baseSR":148.0,"hpAvg":24.2,"pos":4.8},{"name":"Rahul Tewatia","role":"bat","hpBalls":479,"hpSR":149.9,"baseSR":140.0,"hpAvg":24.8,"pos":6.1},{"name":"Mitchell Starc","role":"bowl","hpBalls":230,"hpWk":25,"hpEcon":9.42,"baseEcon":9.65,"hpDot":40.8,"hpSR":9.2},{"name":"Jamie Overton","role":"bowl","hpBalls":198,"hpWk":20,"hpEcon":7.15,"baseEcon":9.52,"hpDot":47.6,"hpSR":9.9},{"name":"Sunil Narine","role":"bowl","hpBalls":489,"hpWk":30,"hpEcon":6.15,"baseEcon":7.2,"hpDot":42.3,"hpSR":16.3},{"name":"Varun Chakravarthy","role":"bowl","hpBalls":843,"hpWk":70,"hpEcon":7.27,"baseEcon":8.43,"hpDot":45.0,"hpSR":12.04},{"name":"Kuldeep Yadav","role":"bowl","hpBalls":649,"hpWk":49,"hpEcon":7.56,"baseEcon":8.24,"hpDot":38.2,"hpSR":13.24},{"name":"Jofra Archer","role":"bowl","hpBalls":329,"hpWk":27,"hpEcon":8.13,"baseEcon":9.17,"hpDot":41.1,"hpSR":12.19},{"name":"Mohit Sharma","role":"bowl","hpBalls":340,"hpWk":31,"hpEcon":9.21,"baseEcon":10.01,"hpDot":33.0,"hpSR":10.97},{"name":"Jasprit Bumrah","role":"bowl","hpBalls":645,"hpWk":46,"hpEcon":7.17,"baseEcon":7.17,"hpDot":41.5,"hpSR":14.02},{"name":"Rashid Khan","role":"bowl","hpBalls":1055,"hpWk":79,"hpEcon":7.05,"baseEcon":7.62,"hpDot":40.5,"hpSR":13.35},{"name":"Rasikh Salam","role":"bowl","hpBalls":233,"hpWk":23,"hpEcon":9.3,"baseEcon":9.79,"hpDot":39.0,"hpSR":10.13},{"name":"Yuzvendra Chahal","role":"bowl","hpBalls":811,"hpWk":60,"hpEcon":8.31,"baseEcon":8.78,"hpDot":35.5,"hpSR":13.52},{"name":"Mitchell Santner","role":"bowl","hpBalls":577,"hpWk":35,"hpEcon":6.48,"baseEcon":7.85,"hpDot":43.0,"hpSR":16.49},{"name":"Yash Thakur","role":"bowl","hpBalls":244,"hpWk":20,"hpEcon":10.06,"baseEcon":10.31,"hpDot":39.3,"hpSR":12.2},{"name":"Adam Zampa","role":"bowl","hpBalls":425,"hpWk":33,"hpEcon":7.89,"baseEcon":8.62,"hpDot":34.6,"hpSR":12.88},{"name":"Yash Dayal","role":"bowl","hpBalls":276,"hpWk":19,"hpEcon":9.46,"baseEcon":9.52,"hpDot":35.4,"hpSR":14.53}],"rr":{"mid_runs":1172,"mid_wk_all":24,"mid_wk_bowler":23,"mid_rank":1,"mid_avg_all_wk":48.833333333333336,"league_mid_avg":32.86494252873563,"Wanindu Hasaranga_RHB":{"runs":179,"wk":5,"balls":138,"econ":7.78},"Wanindu Hasaranga_LHB":{"runs":142,"wk":3,"balls":78,"econ":10.92},"Maheesh Theekshana_RHB":{"runs":128,"wk":4,"balls":82,"econ":9.37},"Maheesh Theekshana_LHB":{"runs":37,"wk":2,"balls":32,"econ":6.94},"top3_2025":{"runs":1337,"outs":38,"avg":35.18,"sr":159.9},"pos48_2025":{"runs":1090,"outs":44,"avg":24.77,"sr":154.8},"pos48_3wk_2025":{"runs":823,"outs":39,"avg":21.1,"sr":153.8},"top3_2026":{"runs":1718,"outs":44,"avg":39.05,"sr":182.8},"pos48_2026":{"runs":1163,"outs":47,"avg":24.74,"sr":148.9},"Shimron Hetmyer":{"balls":69,"runs":78,"outs":6,"sr":113.0,"inns":7},"Dasun Shanaka":{"balls":46,"runs":63,"outs":4,"sr":137.0,"inns":5},"Yash Punja":{"balls":180,"econ":9.3,"wk":9,"avg":31.0,"maxMatchEcon":14.5,"inns":8},"Brijesh Sharma":{"balls":277,"econ":9.64,"wk":14,"avg":31.79,"maxMatchEcon":12.6,"inns":13},"Tushar Deshpande":{"balls":138,"econ":11.96,"wk":4,"avg":68.75,"maxMatchEcon":14.5,"inns":7},"Sandeep Sharma":{"balls":118,"econ":11.39,"wk":5,"avg":44.8,"maxMatchEcon":14.33,"inns":6},"Adam Milne":{"balls":20,"econ":12.0,"wk":0,"avg":40.0,"maxMatchEcon":12.0,"inns":1},"Jofra Archer":{"balls":360,"econ":9.12,"wk":25,"avg":21.88,"maxMatchEcon":14.5,"inns":16}}}};
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const fmt = (x,d=1) => (x===null||x===undefined||Number.isNaN(x)) ? '·' : Number(x).toFixed(d);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AUD = {}; DATA.audit.audit.forEach(r=>AUD[r.name]=r);
+
+/* ---------- official lists (from the deck) ---------- */
+const BAT = [
+ {rank:1,name:'Shashank Singh',team:'PBKS',pos:5.9,hpBalls:379,hpSR:180.2,baseSR:161.6,hpAvg:48.8,cons:70.4,score:97.00,tag:'Bucket A · #6 finisher',type:'target'},
+ {rank:2,dsr:37.4,name:'Naman Dhir',team:'MI',pos:4.8,hpBalls:222,hpSR:205.9,baseSR:168.4,hpAvg:35.2,cons:66.7,score:96.67,tag:'Bucket A · spin-basher all-rounder',type:'target'},
+ {rank:3,name:'Tim David',team:'RCB',pos:5.7,hpBalls:656,hpSR:185.1,baseSR:177.7,hpAvg:34.7,cons:73.5,score:90.73,tag:'Finisher benchmark',type:'benchmark'},
+ {rank:4,name:'Tristan Stubbs',team:'DC',pos:5.2,hpBalls:613,hpSR:163.8,baseSR:149.9,hpAvg:40.2,cons:77.8,score:89.57,tag:'Benchmark · #1 consistency',type:'benchmark'},
+ {rank:5,name:'Rinku Singh',team:'KKR',pos:5.6,hpBalls:662,hpSR:168.9,baseSR:152.7,hpAvg:31.9,cons:65.1,score:86.47,tag:'Benchmark · LHB chase specialist',type:'benchmark'},
+ {rank:6,name:'Ashutosh Sharma',team:'DC',pos:7.1,hpBalls:316,hpSR:172.2,baseSR:166.3,hpAvg:27.2,cons:66.7,score:86.41,tag:'Bucket A · #7 impact',type:'target'},
+ {rank:7,name:'Namboori Tilak Varma',team:'MI',pos:4.3,hpBalls:801,hpSR:161.2,baseSR:143.0,hpAvg:35.9,cons:68.8,score:86.14,tag:'Benchmark · #4 collapse arrestor',type:'benchmark'},
+ {rank:8,name:'Shivam Dube',team:'CSK',pos:5.0,hpBalls:611,hpSR:158.9,baseSR:154.1,hpAvg:34.7,cons:72.2,score:85.53,tag:'Benchmark · spin hitter',type:'benchmark'},
+ {rank:9,name:'Suryakumar Yadav',team:'MI',pos:3.7,hpBalls:589,hpSR:175.7,baseSR:166.4,hpAvg:38.3,cons:56.7,score:85.00,tag:'Benchmark · #3/#4 crisis scorer',type:'benchmark'},
+ {rank:10,name:'Nicholas Pooran',team:'LSG',pos:4.1,hpBalls:591,hpSR:161.4,baseSR:157.0,hpAvg:34.1,cons:73.0,score:84.49,tag:'Benchmark · overseas #4',type:'benchmark'},
+ {rank:15,name:'Marcus Stoinis',team:'',pos:5.1,hpBalls:614,hpSR:158.3,baseSR:145.0,hpAvg:31.4,cons:67.3,score:83.72,tag:'Watchlist · all-rounder',type:'target'},
+ {rank:16,name:'David Miller',team:'',pos:5.3,hpBalls:579,hpSR:150.1,baseSR:142.1,hpAvg:36.2,cons:65.5,score:83.47,tag:'Watchlist · finisher',type:'target'},
+ {rank:23,name:'Ravindra Jadeja',team:'RR',pos:6.0,hpBalls:525,hpSR:147.8,baseSR:143.5,hpAvg:29.0,cons:70.5,score:80.37,tag:'RR core · retain',type:'target'},
+ {rank:24,name:'Dhruv Jurel',team:'RR',pos:5.4,hpBalls:363,hpSR:163.1,baseSR:151.2,hpAvg:25.7,cons:54.2,score:79.25,tag:'RR core · retain',type:'target'},
+ {rank:33,name:'M Shahrukh Khan',team:'',pos:6.1,hpBalls:253,hpSR:168.4,baseSR:151.7,hpAvg:22.5,cons:53.3,score:76.53,tag:'Value · #6/#7 power finisher',type:'target'},
+ {rank:34,name:'Liam Livingstone',team:'',pos:4.8,hpBalls:446,hpSR:162.3,baseSR:153.9,hpAvg:26.9,cons:62.1,score:76.32,tag:'Overseas middle-order option',type:'target'},
+ {rank:42,name:'Rahul Tewatia',team:'',pos:6.6,hpBalls:302,hpSR:151.3,baseSR:154.9,hpAvg:21.8,cons:53.3,score:74.28,tag:'Value · chase finisher',type:'target'}
+];
+const BOWL = [
+ {rank:1,name:'Mitchell Starc',team:'DC',style:'L-arm fast',hpBalls:200,wk:32,hpEcon:9.48,baseEcon:9.73,hpSR:6.25,dot:36.2,cons:66.7,score:98.00,tag:'Benchmark · knockout breaker',type:'benchmark'},
+ {rank:2,name:'Jamie Overton',team:'CSK',style:'R-arm fast',hpBalls:198,wk:23,hpEcon:7.39,baseEcon:8.73,hpSR:8.61,dot:41.6,cons:62.5,score:89.41,tag:'Bucket D · pace all-rounder #8',type:'target'},
+ {rank:3,name:'Sunil Narine',team:'KKR',style:'Off-spin',hpBalls:423,wk:27,hpEcon:5.82,baseEcon:6.94,hpSR:15.67,dot:41.1,cons:60.6,score:86.60,tag:'Benchmark · choke spin',type:'benchmark'},
+ {rank:4,name:'Varun Chakravarthy',team:'KKR',style:'Mystery spin',hpBalls:765,wk:63,hpEcon:7.55,baseEcon:8.08,hpSR:12.14,dot:41.5,cons:66.7,score:85.50,tag:'Benchmark · mystery spin',type:'benchmark'},
+ {rank:5,name:'Kuldeep Yadav',team:'LSG',style:'L-arm wrist',hpBalls:565,wk:50,hpEcon:7.40,baseEcon:8.07,hpSR:11.30,dot:35.7,cons:48.9,score:83.78,tag:'Benchmark · wicket-taker',type:'benchmark'},
+ {rank:6,name:'Jofra Archer',team:'RR',style:'R-arm fast',hpBalls:331,wk:35,hpEcon:8.21,baseEcon:9.06,hpSR:9.46,dot:36.2,cons:52.6,score:83.78,tag:'RR core · anchor',type:'target'},
+ {rank:7,name:'Mohit Sharma',team:'GT',style:'R-arm medium',hpBalls:321,wk:36,hpEcon:9.61,baseEcon:9.66,hpSR:8.92,dot:28.2,cons:56.0,score:83.77,tag:'Bucket C · death slower-ball',type:'target'},
+ {rank:8,name:'Jasprit Bumrah',team:'MI',style:'R-arm fast',hpBalls:615,wk:53,hpEcon:7.23,baseEcon:7.28,hpSR:11.60,dot:36.8,cons:46.4,score:81.58,tag:'Benchmark · all-phase pace',type:'benchmark'},
+ {rank:9,name:'Rashid Khan',team:'GT',style:'Leg-spin',hpBalls:976,wk:78,hpEcon:7.42,baseEcon:7.51,hpSR:12.51,dot:35.9,cons:54.2,score:81.48,tag:'Benchmark · volume',type:'benchmark'},
+ {rank:10,name:'Rasikh Salam',team:'DC',style:'R-arm fast',hpBalls:222,wk:23,hpEcon:9.32,baseEcon:9.66,hpSR:9.65,dot:31.0,cons:71.4,score:80.00,tag:'Bucket C · #1 consistency',type:'target'},
+ {rank:11,name:'Yuzvendra Chahal',team:'',style:'Leg-spin',hpBalls:null,wk:62,hpEcon:8.48,baseEcon:8.19,hpSR:11.53,dot:null,cons:54.5,score:78.30,tag:'Bucket B · middle-overs wicket-taker',type:'target'},
+ {rank:15,name:'Mitchell Santner',team:'',style:'L-arm orthodox',hpBalls:null,wk:35,hpEcon:6.73,baseEcon:6.98,hpSR:14.43,dot:36.6,cons:50.0,score:75.47,tag:'Bucket B · left-arm control',type:'target'},
+ {rank:16,name:'Yash Thakur',team:'',style:'R-arm fast-medium',hpBalls:null,wk:29,hpEcon:9.49,baseEcon:9.66,hpSR:10.30,dot:null,cons:61.9,score:75.29,tag:'Moneyball Indian pacer',type:'target'},
+ {rank:17,name:'Adam Zampa',team:'',style:'Leg-spin',hpBalls:null,wk:41,hpEcon:8.22,baseEcon:7.96,hpSR:10.67,dot:null,cons:58.1,score:74.93,tag:'Overseas leg-spinner',type:'target'},
+ {rank:18,name:'Yash Dayal',team:'',style:'L-arm fast-medium',hpBalls:null,wk:24,hpEcon:8.88,baseEcon:9.27,hpSR:11.96,dot:null,cons:45.8,score:74.74,tag:'Left-arm seam value',type:'target'}
+];
+const PICKS = [
+ {id:'b1',bucket:'Bucket A · #6/#7 finisher',name:'Shashank Singh / Ashutosh Sharma / M Shahrukh Khan',cost:3.8,metric:'Shashank: 180.2 HP SR, +18.6 vs baseline, 70.4% consistency · Shahrukh: 172.2 HP SR, +16.7 uplift',desc:'Targets the Positions 4–8 collapse after a Hetmyer release.',need:'finisher',on:true},
+ {id:'b2',bucket:'Bucket A · high-upside all-rounder',name:'Naman Dhir / David Miller',cost:4.5,metric:'205.9 HP SR · 66.7% HP consistency (Dhir)',desc:'Bridges Jurel and Jadeja with spin-hitting.',need:'finisher',on:false},
+ {id:'s1',bucket:'Bucket B · middle-overs spin',name:'Rahul Chahar / Vipraj Nigam',cost:2.5,metric:'Leg-spin options for overs 7–15',desc:'Targets the 49-average middle-overs leak, alongside Bishnoi, Jadeja and the traded-in Siddharth.',need:'spin',on:true},
+ {id:'p1',bucket:'Bucket C · domestic pacer',name:'Rasikh Salam (rank 10)',cost:1.2,metric:'71.4% HP spell consistency · 9.65 HP SR',desc:'Highest spell consistency in the bowling top 10.',need:'pace',on:true},
+ {id:'p2',bucket:'Bucket C · death slower-ball',name:'Mohit Sharma (rank 7)',cost:0.8,metric:'8.92 HP bowling SR',desc:'A death-overs partner so Archer can attack in bursts.',need:'pace',on:true},
+ {id:'p3',bucket:'Bucket D · overseas pace all-rounder',name:'Jamie Overton (rank 2)',cost:2.0,metric:'7.39 HP economy · −1.34 vs baseline · 41.6% dots',desc:'One #8 package that replaces the released Milne.',need:'allrounder',on:true}
+];
+const RELEASES = [
+ {name:'Shimron Hetmyer',st:'Released',cr:11.0,why:'IPL 2026: 78 runs in 7 innings, strike rate 113, average 13.0'},
+ {name:'Tushar Deshpande',st:'Released',cr:6.5,why:'IPL 2026 economy 12.0. Bought at the IPL 2025 auction for ₹6.50 Cr'},
+ {name:'Adam Milne',st:'Released',cr:2.4,why:'IPL 2026: 1 match, 0 wickets, economy 12.0 on 20 balls'},
+ {name:'Kwena Maphaka',st:'Released',cr:1.5,why:'Overseas pace slot freed'},
+ {name:'Kuldeep Sen',st:'Released',cr:0.75,why:'No deliveries bowled in 2026'},
+ {name:'Yudhvir Singh',st:'Released',cr:0.75,why:'Domestic pace slot freed'},
+ {name:'Vignesh Puthur',st:'Released',cr:0.3,why:'Spin slot freed'},
+ {name:'Ravi Singh',st:'Released',cr:0.3,why:'Squad slot freed'},
+ {name:'Emanjot Singh Chahal',st:'Released',cr:null,why:'Squad slot freed'},
+ {name:'Mohammed Shami',st:'Traded in from LSG',cr:null,why:'Powerplay and death pace, covers the Deshpande gap'},
+ {name:'Manimaran Siddharth',st:'Traded in from LSG',cr:null,why:'Left-arm spin for the middle overs'},
+ {name:'Sam Curran',st:'Traded out to LSG',cr:null,why:'Traded to Lucknow'}
+];
+const PURSE = 27.05;
+const XII = [
+ ['1','Yashasvi Jaiswal','Locked core · LHB opener'],['2','Vaibhav Sooryavanshi','Locked core · LHB opener'],
+ ['3','Riyan Parag (C)','Locked core'],['4','Dhruv Jurel (WK)','Locked core · +11.9 SR uplift'],
+ ['5','Naman Dhir','Bucket A target'],['6','Shashank Singh / Ashutosh Sharma','Bucket A target'],
+ ['7','Ravindra Jadeja','Locked core · left-arm spin'],['8','Jamie Overton / Mitchell Santner','Bucket D / B'],
+ ['9','Jofra Archer','Locked core · pace anchor'],['10','Mohammed Shami','Official trade-in · pace'],
+ ['11','Ravi Bishnoi','Retained · wrist-spin'],['12','Manimaran Siddharth / Rasikh Salam','Trade-in spin / Bucket C impact sub']
+];
+const SOURCES = [
+ ['IPL 2027 retention list: players retained and released (Rajasthan Royals)','https://www.rajasthanroyals.com/latest-news/ipl-2027-rr-players-retention-list-retained-released'],
+ ['RR retained and released players for the IPL 2027 auction (Khel Now)','https://khelnow.com/cricket/rr-retained-released-ipl-2027-202611'],
+ ['IPL 2027 retention list with purse for every team (Wisden)','https://www.wisden.com/series/ipl-2027/cricket-news/ipl-2027-retention-list-full-list-retained-released'],
+ ['Tushar Deshpande bought by RR for ₹6.50 Cr, IPL 2025 auction (Cricket Addictor)','https://cricketaddictor.com/cricket-news/tushar-deshpande-bought-by-rajasthan-royals-for-inr-650-crore-at-ipl-auction-2025'],
+ ['IPL 2027 mini-auction set for Goa on 16 Dec (Outlook India)','https://www.outlookindia.com/sports/cricket/ipl-2027-mini-auction-date-venue-announced-goa-retention-deadline-report']
+];
+
+/* ---------- tabs ---------- */
+const TABS=[['submission','1 · Summary'],['lab','2 · Rankings lab'],['engine','3 · Pressure engine'],['diagnosis','4 · RR diagnosis'],['auction','5 · Auction room'],['cross','6 · Alternative model'],['audit','7 · Validation & method']];
+const built={};
+function go(id){
+  TABS.forEach(([k])=>{ $('#v-'+k).classList.toggle('on',k===id); });
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===id));
+  if(!built[id]){ built[id]=true; ({submission:buildSubmission,lab:buildLab,engine:buildEngine,diagnosis:buildDiagnosis,auction:buildAuction,cross:buildCross,audit:buildAudit})[id](); }
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+  window.scrollTo({top:0});
+}
+$('#tabs').innerHTML = TABS.map(([k,l])=>'<button data-k="'+k+'">'+l+'</button>').join('');
+$$('#tabs button').forEach(b=>b.onclick=()=>go(b.dataset.k));
+
+/* ---------- svg helpers ---------- */
+function svgWrap(w,h,inner){return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" role="img" style="display:block">'+inner+'</svg>';}
+function hbars(items,opt){ // items:[{label,val,color,note}]
+  opt=opt||{}; const w=opt.w||420,rowH=opt.rowH||26,lw=opt.lw||130,max=opt.max||Math.max(...items.map(i=>i.val))*1.12; const h=items.length*rowH+8;
+  let s=''; items.forEach((it,i)=>{ const y=i*rowH+4; const bw=Math.max(2,(w-lw-70)*it.val/max);
+    s+='<text x="0" y="'+(y+15)+'" fill="'+(it.hi?'#fbcfe8':'#93a0bd')+'" font-size="11.5" font-weight="'+(it.hi?700:500)+'">'+esc(it.label)+'</text>';
+    s+='<rect x="'+lw+'" y="'+(y+3)+'" width="'+bw+'" height="14" rx="4" fill="'+(it.color||'#60a5fa')+'"/>';
+    s+='<text x="'+(lw+bw+6)+'" y="'+(y+15)+'" fill="#e8edf7" font-size="11.5" class="mono">'+esc(it.note!==undefined?it.note:fmt(it.val,2))+'</text>'; });
+  return svgWrap(w,h,s);
+}
+function lineChart(series,opt){ // series:[{name,color,pts:[y...],dash}] x = index
+  const w=opt.w||440,h=opt.h||200,pl=36,pr=10,pt=10,pb=26; const n=series[0].pts.length;
+  const ymin=opt.ymin!==undefined?opt.ymin:0, ymax=opt.ymax||Math.max(...series.flatMap(s=>s.pts))*1.1;
+  const X=i=>pl+(w-pl-pr)*i/(n-1), Y=v=>pt+(h-pt-pb)*(1-(v-ymin)/(ymax-ymin));
+  let s=''; const ticks=opt.ticks||4;
+  for(let t=0;t<=ticks;t++){const v=ymin+(ymax-ymin)*t/ticks; s+='<line x1="'+pl+'" x2="'+(w-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#1f2a48"/><text x="'+(pl-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="#64718f" font-size="10" class="mono">'+(opt.yfmt?opt.yfmt(v):fmt(v,opt.yd||1))+'</text>';}
+  (opt.xlabels||[]).forEach(([i,l])=>{s+='<text x="'+X(i)+'" y="'+(h-8)+'" text-anchor="'+(i===n-1?'end':(i===0?'start':'middle'))+'" fill="#64718f" font-size="10">'+l+'</text>';});
+  if(opt.hline!==undefined){s+='<line x1="'+pl+'" x2="'+(w-pr)+'" y1="'+Y(opt.hline)+'" y2="'+Y(opt.hline)+'" stroke="#fbbf24" stroke-dasharray="4 4"/><text x="'+(w-pr)+'" y="'+(Y(opt.hline)-4)+'" text-anchor="end" fill="#fbbf24" font-size="10">'+(opt.hlabel||'')+'</text>';}
+  if(opt.diag){s+='<line x1="'+X(0)+'" y1="'+Y(ymin)+'" x2="'+X(n-1)+'" y2="'+Y(ymax)+'" stroke="#64718f" stroke-dasharray="3 4"/>';}
+  series.forEach(se=>{ const d=se.pts.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' '); s+='<path d="'+d+'" fill="none" stroke="'+se.color+'" stroke-width="2.2" '+(se.dash?'stroke-dasharray="'+se.dash+'"':'')+'/>'; if(opt.dots){se.pts.forEach((v,i)=>{s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3.2" fill="'+se.color+'"/>';});} });
+  return svgWrap(w,h,s);
+}
+function legend(items){return '<div class="legend" style="margin-top:6px">'+items.map(i=>'<span><b style="background:'+i[1]+'"></b>'+i[0]+'</span>').join('')+'</div>';}
+function chipFor(v){return {ok:'<span class="chip ok">✓ matches</span>',warn:'<span class="chip warn">≈ close</span>',bad:'<span class="chip pink">↻ corrected here</span>',info:'<span class="chip info">not reproduced</span>'}[v];}
+function copyText(t,btn){ const done=()=>{const o=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=o,1400)}; if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>fallback())}else fallback(); function fallback(){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done();}}
+
+/* ---------- 1 submission ---------- */
+function kpi(l,v,n,c){return '<div class="card kpi"><div class="l">'+l+'</div><div class="v mono" style="color:'+(c||'var(--txt)')+'">'+v+'</div><div class="n">'+n+'</div></div>';}
+function buildSubmission(){
+  const A=DATA.audit;
+  $('#kpis').innerHTML = [
+    kpi('Deliveries analysed','200,999','IPL, T20I and emerging-team games, 2022–2026'),
+    kpi('High-pressure balls',(A.hp_share*100).toFixed(1)+'%','Pressure index P<sub>t</sub> ≥ 0.62','var(--pink2)'),
+    kpi('Dismissal spike','+'+((A.wk_rate_hp/A.wk_rate_base-1)*100).toFixed(1)+'%',(A.wk_rate_hp*100).toFixed(2)+'% vs '+(A.wk_rate_base*100).toFixed(2)+'% wicket rate','var(--green)'),
+    kpi('RR overs 7–15, IPL 2025',fmt(A.rr.mid_avg_all_wk,2),'Worst bowling average in the league','var(--red)'),
+    kpi('Official purse','₹27.05 Cr','Six slots to fill · Goa auction, 16 Dec','var(--gold)')
+  ].join('');
+  const b2=BAT[1],w2=BOWL[1];
+  const steps=[
+    ['1','Define pressure','A ball-by-ball Pressure Index blends run-rate stress (45%), wicket and collapse shock (30%) and the stage of the contest (25%). A score of 0.62 or more marks a high-pressure ball, which is one ball in three.','Wickets fall <b>'+((A.wk_rate_hp/A.wk_rate_base-1)*100).toFixed(0)+'% more often</b> in these moments.'],
+    ['2','Rate every player','Each ball is scored against what an average player achieves in the same situation. Ratings compare a player under pressure with his own ordinary form, shrink small samples toward the average, and reward consistency across matches.','Blend: impact 45% · uplift 25% · consistency 15% · raw execution 15%.'],
+    ['3','Find who rises','Some batters speed up and some bowlers tighten when it matters most. The data shows which ones do it repeatedly.','<b>'+b2.name+'</b> strikes at '+b2.hpSR.toFixed(0)+' under pressure (+'+b2.dsr.toFixed(1)+'). <b>'+w2.name+'</b> concedes '+w2.hpEcon.toFixed(2)+' an over ('+(w2.hpEcon-w2.baseEcon).toFixed(2)+').'],
+    ['4','Fix the squad','The same lens exposes three structural gaps at Rajasthan Royals. RR enter the Goa auction with ₹27.05 Cr and six open slots, which fund value targets that close them.','Middle-overs spin · #5–#8 finishers · domestic pace depth.']
+  ];
+  $('#steps').innerHTML=steps.map(x=>'<div class="card step"><div class="n">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p><div class="hl">'+x[3]+'</div></div>').join('');
+  const brow=r=>{const bat=r.hpEcon===undefined; const d=bat?(r.dsr!==undefined?r.dsr:r.hpSR-r.baseSR):(r.hpEcon-r.baseEcon);
+    return '<div class="pl"><span><span class="rk mono">#'+r.rank+'</span>&nbsp; <b>'+esc(r.name)+'</b><div class="tag">'+esc(r.tag)+'</div></span><span class="mono" style="text-align:right;white-space:nowrap">'+(bat?r.hpSR.toFixed(1)+' SR':r.hpEcon.toFixed(2)+' econ')+'<div class="tag" style="color:'+((bat?d>0:d<0)?'var(--green)':'var(--mut)')+'">'+(d>0?'+':'')+d.toFixed(bat?1:2)+' vs baseline</div></span></div>';};
+  $('#listBat').innerHTML=BAT.filter(r=>r.rank<=10).map(brow).join('');
+  $('#listBowl').innerHTML=BOWL.filter(r=>r.rank<=10).map(brow).join('');
+  $$('[data-copy]').forEach(b=>b.onclick=()=>{const L=(b.dataset.copy==='bat'?BAT:BOWL).filter(r=>r.rank<=10);copyText(L.map((r,i)=>(i+1)+'. '+r.name).join('\n'),b)});
+  const R=A.rr;
+  $('#rrSnap').innerHTML=[
+    ['var(--red)','Flaw 1 · Middle overs','Worst bowling average in the league',fmt(R.mid_avg_all_wk,1),'in overs 7–15 (league average '+fmt(R.league_mid_avg,1)+'). Fix: wrist-spin and left-arm control.'],
+    ['var(--gold)','Flaw 2 · Positions 4–8','Collapse behind the top three',fmt(R.pos48_3wk_2025.avg,1),'average once three wickets are down, against '+fmt(R.top3_2025.avg,1)+' for the top three. Fix: a #5–#7 finisher bridge.'],
+    ['var(--pink2)','Flaw 3 · Backup seam','Domestic pace depth',fmt(R['Yash Punja'].maxMatchEcon,2),'economy in one IPL 2026 match for Yash Punja. Fix: value seamers and a death specialist.']
+  ].map(x=>'<div class="card" style="border-top:3px solid '+x[0]+'"><div class="eyebrow" style="color:'+x[0]+'">'+x[1]+'</div><div class="small" style="margin-top:4px">'+x[2]+'</div><div class="big mono" style="margin:6px 0">'+x[3]+'</div><div class="sub">'+x[4]+'</div></div>').join('');
+  $('#planSnap').innerHTML='<div class="row2" style="flex-wrap:wrap"><div><div class="eyebrow">The plan</div><h3>₹27.05 Cr and six slots: rebuild with value targets</h3><div class="sub">Based on the official retention and release list of 17 Nov 2026. Hetmyer and Deshpande are released and Shami is traded in.</div></div><button class="btn" id="goAuc">Open the auction room</button></div><div class="hr"></div><div class="grid g4">'+PICKS.filter(p=>p.on).map(p=>'<div class="pl" style="flex-direction:column"><span class="small">'+p.bucket+'</span><b>'+p.name+'</b><span class="mono" style="color:var(--gold)">₹'+p.cost.toFixed(1)+' Cr</span></div>').join('')+'</div>';
+  $('#guide').innerHTML='<thead><tr><th>Required in the brief</th><th>Where it is</th><th>What you will find</th></tr></thead><tbody>'+[
+    ['Pressure definition','Tab 3 · Pressure engine','The index, an interactive calculator, and proof that it separates pressure from ordinary play'],
+    ['Performance metrics, baselines, rating logic','Tabs 2 and 7','Per-player baseline vs pressure, plus the seven-step method'],
+    ['Fair comparisons (samples, eligibility, IPL vs T20I)','Tabs 6 and 7','Shrinkage, eligibility rules, pooled formats, limitations'],
+    ['Evidence for the top 10','Tab 2 · Rankings lab','Sortable tables, charts and a card for every player'],
+    ['Reliability and limitations','Tabs 6 and 7','Repeatability tests, alternative-model rankings, figure-by-figure validation'],
+    ['How each player strengthens RR','Tabs 4 and 5','Diagnosis of three gaps, the purse builder and the playing XII']
+  ].map(r=>'<tr><td><b>'+r[0]+'</b></td><td class="mono" style="color:var(--pink2)">'+r[1]+'</td><td class="small">'+r[2]+'</td></tr>').join('')+'</tbody>';
+  $('#goTop').onclick=()=>document.getElementById('toplists').scrollIntoView({behavior:'smooth'});
+  $('#goLab').onclick=()=>go('lab'); const ga=$('#goAuc'); if(ga)ga.onclick=()=>go('auction');
+  $('#dlCsv').onclick=()=>dl('rankings.csv',toCsv([['list','rank','name','team','score','tag']].concat(BAT.filter(r=>r.rank<=10).map(r=>['batters',r.rank,r.name,r.team,r.score,r.tag]),BOWL.filter(r=>r.rank<=10).map(r=>['bowlers',r.rank,r.name,r.team,r.score,r.tag]))));
+}
+function toCsv(rows){return rows.map(r=>r.map(c=>'"'+String(c===undefined?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');}
+function dl(name,txt){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/csv'}));a.download=name;document.body.appendChild(a);a.click();a.remove();}
+
+/* ---------- 2 lab ---------- */
+let LAB={role:'bat',sort:'rank',dir:1,sel:null};
+function labRows(){
+  const L=LAB.role==='bat'?BAT:BOWL, f=$('#labFilter').value, q=$('#labSearch').value.toLowerCase();
+  let r=L.filter(x=>f==='top10'?x.rank<=10:(f==='target'?x.type==='target':true)).filter(x=>!q||x.name.toLowerCase().includes(q));
+  const k=LAB.sort; r=r.slice().sort((a,b)=>{const av=a[k],bv=b[k]; if(typeof av==='string')return LAB.dir*av.localeCompare(bv); return LAB.dir*((av??-1e9)-(bv??-1e9));}); return r;
+}
+function buildLab(){
+  $('#labRole').onchange=e=>{LAB.role=e.target.value;LAB.sort='rank';LAB.dir=1;LAB.sel=null;renderLab()};
+  $('#labFilter').onchange=renderLab; $('#labSearch').oninput=renderLab; renderLab();
+}
+function renderLab(){
+  const bat=LAB.role==='bat'; const rows=labRows();
+  const cols=bat?[['rank','Rank'],['name','Player'],['team','Team'],['hpBalls','HP balls',1],['hpSR','HP SR',1],['baseSR','Base SR',1],['d','Δ SR',1],['hpAvg','HP avg',1],['cons','Cons %',1],['score','Score',1]]
+                :[['rank','Rank'],['name','Player'],['team','Team'],['hpBalls','HP balls',1],['wk','HP wkts',1],['hpEcon','HP econ',1],['baseEcon','Base econ',1],['d','Δ econ',1],['cons','Cons %',1],['score','Score',1]];
+  rows.forEach(r=>{r.d=bat?(r.dsr!==undefined?r.dsr:+(r.hpSR-r.baseSR).toFixed(1)):+(r.hpEcon-r.baseEcon).toFixed(2)});
+  let h='<thead><tr>'+cols.map(c=>'<th class="s'+(c[2]?' r':'')+'" data-k="'+c[0]+'">'+c[1]+(LAB.sort===c[0]?(LAB.dir>0?' ▲':' ▼'):'')+'</th>').join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{ const good=bat?r.d>0:r.d<0; h+='<tr class="row'+(LAB.sel===r.name?' sel':'')+'" data-n="'+esc(r.name)+'">'+cols.map(c=>{const k=c[0],v=r[k]; let t=(k==='rank')?'<span class="rk mono">#'+v+'</span>':(k==='name'?'<b>'+esc(v)+'</b><div class="tag">'+esc(r.tag)+'</div>':(k==='d'?'<span style="color:'+(good?'var(--green)':'var(--red)')+'" class="mono">'+(v>0?'+':'')+v+'</span>':(typeof v==='number'?'<span class="mono">'+fmt(v,k==='hpBalls'||k==='wk'?0:(k==='hpEcon'||k==='baseEcon'?2:1))+'</span>':esc(v||'·')))); return '<td class="'+(c[2]?'r':'')+'">'+t+'</td>';}).join('')+'</tr>'; });
+  $('#labTable').innerHTML=h+'</tbody>'; $('#labCount').textContent=rows.length+' players';
+  $$('#labTable th.s').forEach(t=>t.onclick=()=>{const k=t.dataset.k; if(LAB.sort===k)LAB.dir*=-1; else {LAB.sort=k;LAB.dir=(k==='rank'||k==='name'||k==='team')?1:-1;} renderLab();});
+  $$('#labTable tr.row').forEach(t=>t.onclick=()=>{LAB.sel=t.dataset.n;renderLab();});
+  if(!LAB.sel&&rows.length)LAB.sel=rows[0].name;
+  drawLabChart(rows); drawDrawer();
+}
+function drawLabChart(rows){
+  const bat=LAB.role==='bat'; const w=440,h=330,pl=44,pb=34,pt=10,pr=14;
+  const pts=rows.filter(r=>bat?r.baseSR:r.baseEcon).map(r=>({n:r.name,x:bat?r.baseSR:r.baseEcon,y:bat?r.hpSR:r.hpEcon,t:r.type}));
+  $('#labChartTitle').textContent=bat?'Baseline vs high-pressure strike rate':'Baseline vs high-pressure economy';
+  $('#labChartSub').textContent=bat?'Above the diagonal means a batter speeds up under pressure.':'Below the diagonal means a bowler tightens up under pressure.';
+  if(!pts.length){$('#labChart').innerHTML='';return;}
+  const all=pts.flatMap(p=>[p.x,p.y]); const lo=Math.floor(Math.min(...all)-4), hi=Math.ceil(Math.max(...all)+4);
+  const X=v=>pl+(w-pl-pr)*(v-lo)/(hi-lo), Y=v=>pt+(h-pt-pb)*(1-(v-lo)/(hi-lo));
+  let s=''; for(let t=0;t<=4;t++){const v=lo+(hi-lo)*t/4; s+='<line x1="'+pl+'" x2="'+(w-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#1f2a48"/><text x="'+(pl-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="#64718f" font-size="10" class="mono">'+v.toFixed(bat?0:1)+'</text><text x="'+X(v)+'" y="'+(h-16)+'" text-anchor="middle" fill="#64718f" font-size="10" class="mono">'+v.toFixed(bat?0:1)+'</text>';}
+  s+='<line x1="'+X(lo)+'" y1="'+Y(lo)+'" x2="'+X(hi)+'" y2="'+Y(hi)+'" stroke="#64718f" stroke-dasharray="3 4"/>';
+  s+='<text x="'+((pl+w-pr)/2)+'" y="'+(h-2)+'" text-anchor="middle" fill="#93a0bd" font-size="10.5">'+(bat?'Baseline strike rate':'Baseline economy')+'</text>';
+  pts.forEach(p=>{const sel=p.n===LAB.sel; s+='<circle cx="'+X(p.x)+'" cy="'+Y(p.y)+'" r="'+(sel?7:5)+'" fill="'+(p.t==='target'?'#ea1a85':'#60a5fa')+'" opacity="'+(sel?1:.8)+'" stroke="'+(sel?'#fff':'none')+'" stroke-width="2"><title>'+esc(p.n)+'</title></circle>'; if(sel||pts.length<=12)s+='<text x="'+(X(p.x)+8)+'" y="'+(Y(p.y)+3)+'" fill="#e8edf7" font-size="10">'+esc(p.n.split(' ')[0][0]+'. '+p.n.split(' ').slice(-1)[0])+'</text>';});
+  $('#labChart').innerHTML=svgWrap(w,h,s)+legend([['Auction / value target','#ea1a85'],['Benchmark','#60a5fa']]);
+}
+function drawDrawer(){
+  const L=LAB.role==='bat'?BAT:BOWL, r=L.find(x=>x.name===LAB.sel); if(!r){$('#drawer').innerHTML='';return;}
+  const a=AUD[r.name]; const bat=LAB.role==='bat'; const cx=(bat?DATA.cross_bat:DATA.cross_bowl)[r.name];
+  let rec='';
+  if(a&&!a.missing){ rec= bat?
+    '<dt>Recomputed HP balls</dt><dd class="mono">'+a.hpBalls+'</dd><dt>Recomputed HP SR</dt><dd class="mono">'+fmt(a.hpSR)+'</dd><dt>Recomputed baseline SR</dt><dd class="mono">'+fmt(a.baseSR)+'</dd><dt>Recomputed HP average</dt><dd class="mono">'+fmt(a.hpAvg)+'</dd>':
+    '<dt>Recomputed HP balls</dt><dd class="mono">'+a.hpBalls+'</dd><dt>Recomputed HP wickets</dt><dd class="mono">'+a.hpWk+'</dd><dt>Recomputed HP economy</dt><dd class="mono">'+fmt(a.hpEcon,2)+'</dd><dt>Recomputed baseline economy</dt><dd class="mono">'+fmt(a.baseEcon,2)+'</dd>'; }
+  const xr=cx?(cx.rank?'<dt>Independent model rank</dt><dd class="mono">#'+cx.rank+' of '+cx.of+'</dd>':'<dt>Independent model</dt><dd>'+esc(cx.why)+'</dd>'):'<dt>Independent model</dt><dd>not tested</dd>';
+  const a1=bat?r.baseSR:r.baseEcon,a2=bat?r.hpSR:r.hpEcon; const mx=Math.max(a1,a2)*1.15;
+  const barsHtml='<div style="margin-top:12px"><div class="small">'+(bat?'Strike rate':'Economy')+'</div>'+
+   '<div class="row2 small" style="margin-top:6px"><span>Baseline</span><b class="mono">'+fmt(a1,bat?1:2)+'</b></div><div class="bar"><i style="width:'+(a1/mx*100)+'%;background:#64718f"></i></div>'+
+   '<div class="row2 small" style="margin-top:6px"><span>High pressure</span><b class="mono">'+fmt(a2,bat?1:2)+'</b></div><div class="bar"><i style="width:'+(a2/mx*100)+'%;background:var(--pink)"></i></div></div>';
+  $('#drawer').innerHTML='<div class="row2"><div><div class="eyebrow">Rank #'+r.rank+' · '+(bat?'Batter':'Bowler')+(r.team?' · '+r.team:'')+'</div><h3 style="margin-top:3px">'+esc(r.name)+'</h3></div><span class="chip pink">'+fmt(r.score,2)+'</span></div><div class="sub">'+esc(r.tag)+'</div>'+barsHtml+
+   '<dl class="kv"><dt>Match consistency</dt><dd class="mono">'+fmt(r.cons)+'%</dd>'+(bat?'<dt>Average position</dt><dd class="mono">'+fmt(r.pos)+'</dd><dt>HP average (reported)</dt><dd class="mono">'+fmt(r.hpAvg)+'</dd>':'<dt>HP strike rate (balls per wicket)</dt><dd class="mono">'+fmt(r.hpSR,2)+'</dd><dt>HP dot-ball %</dt><dd class="mono">'+fmt(r.dot)+'</dd>')+'<dt>HP balls reported</dt><dd class="mono">'+(r.hpBalls??'·')+'</dd></dl><div class="hr"></div><dl class="kv" style="margin-top:0">'+rec+xr+'</dl>';
+}
+
+/* ---------- 3 engine ---------- */
+function pt(inn,b,rrr,w,w12,ko){
+  let pRR; if(inn===2){const cap=9.0*(1-0.065*Math.min(8,w)); pRR=1/(1+Math.exp(-(rrr-cap)/3.5));} else {const deficit=b>12?Math.max(-0.2,Math.min(0.4,(8.5-rrr)*0.08)):0; const death=b>84?0.35*Math.pow((b-84)/36,1.2):0; pRR=Math.min(0.90,Math.max(0.15,0.35+deficit+death));}
+  const wExp=5.5*(b/120), wEx=Math.max(0,w-wExp), pWkt=Math.min(1,0.15*w+0.25*w12+0.12*wEx);
+  const knife=(inn===2&&rrr>=7.5&&rrr<=16&&w<=8)?0.25:0; const pPhase=Math.min(1,Math.pow(b/120,1.25)+knife+(ko?0.15:0));
+  return {pRR,pWkt,pPhase,pt:Math.min(1,Math.max(0,0.45*pRR+0.30*pWkt+0.25*pPhase))};
+}
+const PRESETS=[['Powerplay, steady',{inn:2,b:30,r:8,w:1,w12:0,ko:0}],['Middle overs, 3 down',{inn:2,b:66,r:10,w:3,w12:1,ko:0}],['Collapse, 2 in an over',{inn:2,b:78,r:11.5,w:5,w12:2,ko:0}],['Last 3 overs, 36 needed',{inn:2,b:102,r:12,w:4,w12:0,ko:1}],['First-innings death',{inn:1,b:108,r:8.2,w:5,w12:1,ko:0}]];
+function buildEngine(){
+  const A=DATA.audit;
+  $('#engKpis').innerHTML=[
+    kpi('High-pressure share',(A.hp_share*100).toFixed(1)+'%',A.hp_n.toLocaleString()+' of '+A.n.toLocaleString()+' regular-innings balls','var(--pink2)'),
+    kpi('Wicket rate',(A.wk_rate_hp*100).toFixed(2)+'%','vs '+(A.wk_rate_base*100).toFixed(2)+'% elsewhere · +'+((A.wk_rate_hp/A.wk_rate_base-1)*100).toFixed(1)+'%','var(--red)'),
+    kpi('Dot-ball share',(A.dot_hp*100).toFixed(1)+'%','vs '+(A.dot_base*100).toFixed(1)+'% elsewhere'),
+    kpi('Knockout lift',(A.hp_by_stage.Knockout*100).toFixed(1)+'%','of knockout balls are high-pressure vs '+(A.hp_by_stage.League*100).toFixed(1)+'% in league games')
+  ].join('');
+  $('#presets').innerHTML=PRESETS.map((p,i)=>'<button class="btn ghost" data-p="'+i+'">'+p[0]+'</button>').join('');
+  $$('#presets button').forEach(b=>b.onclick=()=>{const p=PRESETS[b.dataset.p][1]; $('#sInn').value=p.inn;$('#sB').value=p.b;$('#sR').value=p.r;$('#sW').value=p.w;$('#sW12').value=p.w12;$('#sKo').value=p.ko;updateSim();});
+  ['sInn','sB','sR','sW','sW12','sKo'].forEach(i=>{$('#'+i).oninput=updateSim;$('#'+i).onchange=updateSim;});
+  updateSim();
+  $('#hpOver').innerHTML=lineChart([{name:'All',color:'#ea1a85',pts:A.hp_by_over_inn['1'],dash:'5 4'},{name:'Chase',color:'#fbbf24',pts:A.hp_by_over_inn['2']}].map((s,i)=>({color:i?'#fbbf24':'#60a5fa',pts:s.pts})),{ymax:1,ymin:0,yfmt:v=>Math.round(v*100)+'%',xlabels:[[0,'1'],[4,'5'],[9,'10'],[14,'15'],[19,'20']],hline:undefined})+legend([['Innings 1','#60a5fa'],['Innings 2','#fbbf24']]);
+  const rows=[['Wicket rate',(A.wk_rate_hp*100).toFixed(2)+'%',(A.wk_rate_base*100).toFixed(2)+'%'],['Dot-ball share',(A.dot_hp*100).toFixed(1)+'%',(A.dot_base*100).toFixed(1)+'%'],['Team runs per ball',A.rpb_hp.toFixed(3),A.rpb_base.toFixed(3)]];
+  $('#valTable').innerHTML='<table><thead><tr><th>Measure</th><th class="r">High pressure</th><th class="r">Elsewhere</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="r mono">'+r[1]+'</td><td class="r mono">'+r[2]+'</td></tr>').join('')+'</tbody></table><div class="note" style="margin-top:8px">Wickets rise sharply and scoring barely changes. Pressure shows up as dismissals, so wicket cost must be part of any rating.</div>';
+  const mx=Math.max(...A.pt_hist);
+  $('#hist').innerHTML='<div class="small">Distribution of P<sub>t</sub> across all balls (the 0.62 cut sits at the 13th bar)</div>'+svgWrap(440,90,A.pt_hist.map((v,i)=>'<rect x="'+(i*22+2)+'" y="'+(80-v/mx*72)+'" width="18" height="'+(v/mx*72)+'" rx="3" fill="'+(i>=12?'#ea1a85':'#334155')+'"/>').join('')+'<text x="2" y="90" fill="#64718f" font-size="9">0</text><text x="438" y="90" text-anchor="end" fill="#64718f" font-size="9">1</text>');
+}
+function updateSim(){
+  const inn=+$('#sInn').value,b=+$('#sB').value,r=+$('#sR').value,w=+$('#sW').value,w12=+$('#sW12').value,ko=+$('#sKo').value;
+  $('#lInn').textContent=inn===2?'Chasing':'Setting'; $('#lB').textContent=b+' balls · over '+(b/6).toFixed(1); $('#lR').textContent=r.toFixed(2)+' rpo'; $('#lW').textContent=w+' down'; $('#lRlab').textContent=inn===2?'Required run rate':'Current run rate';
+  const s=pt(inn,b,r,w,w12,ko);
+  $('#ptv').textContent=s.pt.toFixed(3); const hp=s.pt>=0.62; const bd=$('#ptb'); bd.textContent=hp?'HIGH PRESSURE':'BASELINE'; bd.className='chip '+(hp?'pink':'info');
+  const bar=(l,wt,v,c)=>'<div style="margin-bottom:10px"><div class="row2 small"><span>'+l+' <span style="color:var(--dim)">· weight '+wt+'</span></span><b class="mono" style="color:'+c+'">'+v.toFixed(3)+'</b></div><div class="bar"><i style="width:'+Math.round(v*100)+'%;background:'+c+'"></i></div></div>';
+  $('#subs').innerHTML=bar('Run-rate and resource stress','0.45',s.pRR,'#ea1a85')+bar('Wicket and collapse shock','0.30',s.pWkt,'#fbbf24')+bar('Stage and contest leverage','0.25',s.pPhase,'#34d399');
+  const pts=[]; for(let bb=6;bb<=119;bb+=3)pts.push(pt(inn,bb,r,w,w12,ko).pt);
+  $('#curve').innerHTML='<div class="small">P<sub>t</sub> as the innings advances, other sliders held fixed</div>'+lineChart([{color:'#ea1a85',pts}],{h:150,ymin:0,ymax:1,hline:0.62,hlabel:'0.62',yfmt:v=>v.toFixed(1),ticks:2,xlabels:[[0,'over 1'],[Math.floor(pts.length/2),'over 10'],[pts.length-1,'over 20']]});
+  $('#rec').innerHTML= hp ? (inn===2?'<b>High-pressure chase.</b> Bat Dhruv Jurel at 4/5 with a finisher bridge behind him. Bowl Archer at the death with Rasikh Salam or Mohit Sharma for slower balls.':'<b>High-pressure first innings.</b> Protect wickets: send a power-hitter only if the platform is set, and keep Jadeja back.') : '<b>Baseline state.</b> Rotate strike and use the spin core (Bishnoi, Puthur, Jadeja) to squeeze overs 7–15.';
+}
+
+/* ---------- 4 diagnosis ---------- */
+function buildDiagnosis(){
+  const R=DATA.audit.rr;
+  $('#midBars').innerHTML=hbars(DATA.team_mid.map(t=>({label:t.team.replace('Royal Challengers Bengaluru','RCB').replace('Rajasthan Royals','RR ★').replace('Lucknow Super Giants','LSG').replace('Delhi Capitals','DC').replace('Gujarat Titans','GT').replace('Punjab Kings','PBKS').replace('Kolkata Knight Riders','KKR').replace('Sunrisers Hyderabad','SRH').replace('Chennai Super Kings','CSK').replace('Mumbai Indians','MI'),val:t.avg,hi:t.rr,color:t.rr?'#ea1a85':'#334155',note:t.avg.toFixed(1)})),{w:360,lw:70});
+  $('#flaw1').innerHTML='<div class="pill-list"><div class="pl"><span>RR average</span><b class="mono">'+fmt(R.mid_avg_all_wk,2)+'</b></div><div class="pl"><span>Runs / wickets</span><b class="mono">'+R.mid_runs+' / '+R.mid_wk_all+'</b></div><div class="pl"><span>League average</span><b class="mono">'+fmt(R.league_mid_avg,1)+'</b></div></div><div style="margin-top:8px">'+chipFor('ok')+' <span class="small">Worst in the league by a wide margin.</span></div>';
+  const t3=R.top3_2025,p48=R.pos48_2025,p3=R.pos48_3wk_2025;
+  $('#posBars').innerHTML=hbars([{label:'Top 3',val:t3.avg,color:'#34d399',note:fmt(t3.avg,1)},{label:'Pos 4–8',val:p48.avg,color:'#fbbf24',note:fmt(p48.avg,1)},{label:'Pos 4–8, 3+ down',val:p3.avg,color:'#fb7185',note:fmt(p3.avg,1)}],{w:360,lw:110});
+  $('#flaw2').innerHTML='<div class="pill-list"><div class="pl"><span>Top 3 strike rate, 2025</span><b class="mono">'+fmt(t3.sr)+'</b></div><div class="pl"><span>Top 3 strike rate, 2026</span><b class="mono">'+fmt(R.top3_2026.sr)+'</b></div><div class="pl"><span>Hetmyer, IPL 2026</span><b class="mono">'+R['Shimron Hetmyer'].runs+' runs · SR '+fmt(R['Shimron Hetmyer'].sr)+'</b></div></div><div style="margin-top:8px">'+chipFor('ok')+' <span class="small">The top three average 35.2; positions 4–8 fall to 21.1 once three wickets are down.</span></div>';
+  const names=['Yash Punja','Brijesh Sharma','Tushar Deshpande','Sandeep Sharma'];
+  $('#paceBars').innerHTML=hbars(names.flatMap(n=>[{label:n.split(' ')[0]+' · season',val:R[n].econ,color:'#60a5fa',note:fmt(R[n].econ,2)},{label:'  worst match',val:R[n].maxMatchEcon,color:'#fb7185',note:fmt(R[n].maxMatchEcon,2)}]),{w:360,lw:120,rowH:22,max:16});
+  $('#flaw3').innerHTML='<div style="margin-top:2px">'+chipFor('ok')+' <span class="small">Punja conceded 14.50 an over in his worst match and Brijesh Sharma 12.60. Each bowled in fewer than ten matches, so season economies are noisy.</span></div>';
+}
+
+/* ---------- 5 auction ---------- */
+function buildAuction(){
+  const days=Math.max(0,Math.ceil((new Date('2026-11-17T23:59:00+05:30')-new Date())/864e5));
+  $('#aucKpis').innerHTML=[kpi('Retentions','Final · 17 Nov 2026','19 retained incl. trades · 9 released','var(--gold)'),kpi('Mini-auction','16 Dec 2026','Goa','var(--pink2)'),kpi('Official purse','₹27.05 Cr','Six slots to fill, three overseas','var(--green)')].join('');
+  $('#relTable').innerHTML='<thead><tr><th>Player</th><th>Move</th><th class="r">₹ Cr</th><th>Why it matters</th></tr></thead><tbody>'+RELEASES.map(r=>'<tr><td><b>'+r.name+'</b></td><td class="small">'+r.st+'</td><td class="r mono">'+(r.cr==null?'·':r.cr.toFixed(2))+'</td><td class="small">'+r.why+'</td></tr>').join('')+'</tbody>';
+  $('#picks').innerHTML=PICKS.map((p,i)=>'<div class="pick" data-i="'+i+'"><div class="row2"><span class="eyebrow">'+p.bucket+'</span><span class="chip ok mono">₹'+p.cost.toFixed(1)+' Cr</span></div><h4 style="margin-top:6px;font-size:15px">'+p.name+'</h4><div class="mono" style="color:var(--gold);font-size:12px;margin-top:4px">'+p.metric+'</div><p class="sub">'+p.desc+'</p><div class="small" style="font-weight:700" data-st></div></div>').join('');
+  $$('#picks .pick').forEach(c=>c.onclick=()=>{const p=PICKS[c.dataset.i];p.on=!p.on;calcPurse();});
+  $('#xii').innerHTML=XII.map(x=>'<div class="pl"><span><span class="rk mono">'+x[0]+'</span>&nbsp; <b>'+x[1]+'</b></span><span class="tag">'+x[2]+'</span></div>').join('');
+  $('#aucSources').innerHTML=SOURCES.map(s=>'<div class="pl"><a href="'+s[1]+'" target="_blank" rel="noopener">'+s[0]+'</a></div>').join('');
+  calcPurse();
+}
+function calcPurse(){
+  const pool=PURSE, spent=PICKS.filter(p=>p.on).reduce((a,p)=>a+p.cost,0), rem=pool-spent;
+  $('#freed').textContent='₹'+pool.toFixed(2)+' Cr'; const re=$('#remain'); re.textContent='₹'+rem.toFixed(2)+' Cr'; re.style.color=rem>=0?'var(--green)':'var(--red)';
+  $('#purseBar').style.width=Math.min(100,pool?spent/pool*100:100)+'%'; $('#purseTxt').textContent='₹'+spent.toFixed(1)+' Cr planned of ₹'+pool.toFixed(2)+' Cr official purse'+(rem<0?' · over budget':'');
+  $$('#picks .pick').forEach((c,i)=>{const p=PICKS[i];c.classList.toggle('on',p.on);c.querySelector('[data-st]').innerHTML=p.on?'<span style="color:var(--pink2)">✓ In the bid plan</span>':'<span style="color:var(--dim)">+ Click to add</span>';});
+  const cover=k=>PICKS.some(p=>p.on&&p.need===k);
+  $('#needs').innerHTML=[['Reliable middle-order finisher','finisher'],['Middle-overs spin','spin'],['Domestic pace depth','pace'],['Overseas pace all-rounder','allrounder']].map(x=>'<div class="pl"><span>'+x[0]+'</span>'+(cover(x[1])?'<span class="chip ok">covered</span>':'<span class="chip warn">gap</span>')+'</div>').join('');
+}
+
+/* ---------- 6 cross-check ---------- */
+function buildCross(){
+  const M=DATA.model;
+  $('#crossNote').innerHTML='<b>Alternative model.</b> As a second view, we re-ran the analysis with a different definition of pressure: how much the next ball can swing the win probability. The final rankings (tab 1) come from the pressure index in tab 3. This tab shows the rankings produced by the alternative model, and the options it surfaces. Narine, Chakravarthy, Kuldeep Yadav, Bumrah and Suryakumar Yadav appear in both, which strengthens the case for them. The other names in the alternative lists are additional options to consider.';
+  $('#xKpis').innerHTML=[kpi('Matches used',M.matches,M.ipl+' IPL · '+M.t20i+' T20I (full members)'),kpi('Win-probability AUC',M.auc.toFixed(3),'Chase '+M.auc2.toFixed(3)+' · first innings '+M.auc1.toFixed(3),'var(--green)'),kpi('Log loss / Brier',M.logloss.toFixed(3)+' / '+M.brier.toFixed(3),'Out-of-fold by match'),kpi('Eligible players',DATA.my_bat_n+' / '+DATA.my_bowl_n,'Batters / bowlers on both lenses')].join('');
+  const tbl=(rows,bat)=>'<thead><tr><th>#</th><th>Player</th><th class="r">Score</th><th class="r">P(top 10)</th><th class="r">Rank range</th><th class="r">'+(bat?'SR (HP)':'Econ (HP)')+'</th></tr></thead><tbody>'+rows.slice(0,12).map(r=>'<tr><td class="rk mono">#'+r.rank+'</td><td><b>'+esc(r.name)+'</b></td><td class="r mono">'+fmt(r.score,2)+'</td><td class="r mono">'+Math.round(r.p_top10*100)+'%</td><td class="r mono">'+Math.round(r.rank_lo)+'–'+Math.round(r.rank_hi)+'</td><td class="r mono">'+(bat?fmt(r.SR_H,0):fmt(r.Econ_H,2))+'</td></tr>').join('')+'</tbody>';
+  $('#myBat').innerHTML=tbl(DATA.my_bat,true); $('#myBowl').innerHTML=tbl(DATA.my_bowl,false);
+  const xt=(c,t)=>'<thead><tr><th>'+t+'</th><th class="r">Final rank</th><th class="r">Alternative rank</th></tr></thead><tbody>'+Object.entries(c).map(([n,v],i)=>'<tr><td><b>'+esc(n)+'</b>'+(v.rank?'':'<div class="tag">'+esc(v.why)+'</div>')+'</td><td class="r mono">#'+(i+1)+'</td><td class="r mono" style="color:'+(v.rank&&v.rank<=10?'var(--green)':(v.rank&&v.rank>40?'var(--red)':'var(--txt)'))+'">'+(v.rank?'#'+v.rank+' / '+v.of:'n/a')+'</td></tr>').join('')+'</tbody>';
+  $('#xBat').innerHTML=xt(DATA.cross_bat,'Batters'); $('#xBowl').innerHTML=xt(DATA.cross_bowl,'Bowlers');
+  const sens=(k,l,c)=>'<div class="small" style="margin-top:6px">'+l+'</div>'+hbars(Object.entries(M.sens[k]).map(([n,v])=>({label:n,val:v,color:c,note:v+' / 10'})),{w:420,lw:110,max:10,rowH:22});
+  $('#sens').innerHTML=sens('bat','Batters','#ea1a85')+sens('bowl','Bowlers','#fbbf24');
+  const rel=(k,l)=>'<div class="small" style="margin-top:6px">'+l+' · components: pressure value, gap vs own baseline, consistency</div>'+hbars(['Pressure value','Gap vs baseline','Consistency'].map((n,i)=>({label:n,val:Math.max(0.01,M.rel_all[k][i]),color:M.rel_all[k][i]<=0?'#fb7185':'#60a5fa',note:M.rel_all[k][i].toFixed(2)})),{w:420,lw:110,max:0.6,rowH:22});
+  $('#rel').innerHTML=rel('bat','Batters')+rel('bowl','Bowlers')+'<div class="note" style="margin-top:8px">Bowling pressure skill is only weakly repeatable (reliability 0.15), and the bowler gap-versus-baseline component is not repeatable (−0.03). Bowling ranks therefore carry wide uncertainty.</div>';
+  const xl=[[0,'1'],[4,'5'],[9,'10'],[14,'15'],[19,'20']];
+  $('#liChart').innerHTML=lineChart([{color:'#60a5fa',pts:DATA.li_over['1']},{color:'#fbbf24',pts:DATA.li_over['2']}],{ymin:0,ymax:3,ticks:3,xlabels:xl,hline:1,hlabel:'average'})+legend([['Innings 1','#60a5fa'],['Innings 2 (chase)','#fbbf24']]);
+  $('#calChart').innerHTML=lineChart([{color:'#ea1a85',pts:DATA.calib.map(c=>c.y)}],{ymin:0,ymax:1,ticks:5,w:440,h:200,dots:true,yfmt:v=>v.toFixed(1),xlabels:[[0,'low'],[9,'high']],diag:true});
+  $('#tierTable').innerHTML='<div class="scroll" style="max-height:none"><table><thead><tr><th>Tier</th><th class="r">Balls</th><th class="r">Avg leverage</th><th class="r">Wicket %</th><th class="r">Dot %</th></tr></thead><tbody>'+DATA.tiers.map(t=>'<tr><td>'+t.tier+'</td><td class="r mono">'+t.n.toLocaleString()+'</td><td class="r mono">'+t.li+'</td><td class="r mono">'+t.wk+'</td><td class="r mono">'+t.dot+'</td></tr>').join('')+'</tbody></table></div>';
+}
+
+/* ---------- 7 audit ---------- */
+function AUDIT_ROWS(){
+  const A=DATA.audit,R=A.rr,H=R['Shimron Hetmyer'],a=AUD;
+  const row=(claim,src,claimed,data,v)=>({claim,src,claimed,data,v});
+  return [
+   row('Share of balls in the high-pressure zone','Dashboard','61,613 (30.7%)',A.hp_n.toLocaleString()+' ('+(A.hp_share*100).toFixed(1)+'%)','warn'),
+   row('Dismissal spike in the high-pressure zone','Dashboard','+50.4%','+'+((A.wk_rate_hp/A.wk_rate_base-1)*100).toFixed(1)+'%','ok'),
+   row('extras1_runs is an extras-type code, 6 = legal ball','Deck','Decoded','Confirmed: 189,167 rows with code 6 and no extras','ok'),
+   row('RR bowling average in overs 7–15, IPL 2025','Deck','49.04 (1,177 / 24), league-worst',fmt(R.mid_avg_all_wk,2)+' ('+R.mid_runs+' / '+R.mid_wk_all+'), rank '+R.mid_rank+' of 10','ok'),
+   row('RR top-3 batting average, 2025','Deck','35.23',fmt(R.top3_2025.avg,2),'ok'),
+   row('RR top-3 strike rate','Deck','172.0','159.9 (2025) · 182.8 (2026)','bad'),
+   row('Positions 4–8 average when 3+ wickets are down, 2025','Deck','21.66',fmt(R.pos48_3wk_2025.avg,2),'ok'),
+   row('Hetmyer IPL 2026','Deck','78 runs · 7 inns · avg 13.00 · SR 113.04',H.runs+' runs · '+H.inns+' inns · avg '+fmt(H.runs/H.outs,2)+' · SR '+fmt(H.sr,2),'ok'),
+   row('Shanaka IPL 2026','Deck','63 runs in 5 innings',R['Dasun Shanaka'].runs+' runs in '+R['Dasun Shanaka'].inns+' innings','ok'),
+   row('Sandeep Sharma IPL 2026','Deck','11.44 econ · 44.80 avg',fmt(R['Sandeep Sharma'].econ,2)+' econ · '+fmt(R['Sandeep Sharma'].avg,2)+' avg','ok'),
+   row('Tushar Deshpande IPL 2026 economy','Deck','12.13',fmt(R['Tushar Deshpande'].econ,2),'warn'),
+   row('Yash Punja worst match economy','Deck','14.50',fmt(R['Yash Punja'].maxMatchEcon,2),'ok'),
+   row('Brijesh Sharma economy and worst match','Deck','9.77 · 12.60',fmt(R['Brijesh Sharma'].econ,2)+' · '+fmt(R['Brijesh Sharma'].maxMatchEcon,2),'ok'),
+   row('Adam Milne IPL 2026','Deck','12.30 econ, 41 runs in 3.2 overs',fmt(R['Adam Milne'].econ,2)+' econ, '+R['Adam Milne'].balls+' balls','warn'),
+   row('Shashank Singh high-pressure balls and SR','Deck','379 · 180.2',a['Shashank Singh'].hpBalls+' · '+fmt(a['Shashank Singh'].hpSR),'warn'),
+   row('Naman Dhir high-pressure balls and SR','Deck','222 · 205.9',a['Naman Dhir'].hpBalls+' · '+fmt(a['Naman Dhir'].hpSR),'warn'),
+   row('Tim David high-pressure balls and SR','Deck','656 · 185.1',a['Tim David'].hpBalls+' · '+fmt(a['Tim David'].hpSR),'warn'),
+   row('Rashid Khan high-pressure balls','Deck','976',String(a['Rashid Khan'].hpBalls),'warn'),
+   row('Jofra Archer high-pressure economy and wickets','Deck','8.21 · 35 wkts',fmt(a['Jofra Archer'].hpEcon,2)+' · '+a['Jofra Archer'].hpWk+' wkts','warn'),
+   row('Retention deadline','Deck','17 Nov','Retention list published 17 Nov 2026 (RR, Khel Now, Wisden)','ok'),
+   row('Mini-auction date and venue','Deck','16 Dec, Goa','16 Dec 2026, Goa, per Outlook India and others','ok'),
+   row('RR purse for the Goa auction','Earlier scenario','₹20.15 Cr (projected)','₹27.05 Cr official after the 17 Nov list: Hetmyer, Deshpande, Milne and five others released, Shami and Siddharth traded in, Curran out','bad'),
+   row('Rank stability when the pressure definition changes','Deck','ρ ≈ 0.96 within the same index','Alternative definition: top-10 overlap 5 to 10 of 10 (tab 6)','info'),
+  ];
+}
+function buildAudit(){
+  const rows=AUDIT_ROWS(); const c=k=>rows.filter(r=>r.v===k).length;
+  $('#audKpis').innerHTML=[kpi('Figures checked',rows.length,'Recomputed from ball_by_ball.csv'),kpi('Match',c('ok'),'Within rounding','var(--green)'),kpi('Close',c('warn'),'Same direction, small difference','var(--gold)'),kpi('Corrected / not reproduced',c('bad')+' / '+c('info'),'Recomputed value used','var(--pink2)')].join('');
+  const draw=()=>{const f=$('#audFilter').value; $('#audTable').innerHTML='<thead><tr><th>Figure</th><th>Reported in analysis</th><th>Recomputed</th><th>Status</th></tr></thead><tbody>'+rows.filter(r=>f==='all'||r.v===f).map(r=>'<tr><td><b>'+esc(r.claim)+'</b></td><td class="mono">'+esc(r.claimed)+'</td><td class="mono">'+esc(r.data)+'</td><td>'+chipFor(r.v)+'</td></tr>').join('')+'</tbody>';};
+  $('#audFilter').onchange=draw; draw();
+  $('#schema').innerHTML='<thead><tr><th class="r">Code</th><th>extras_type</th><th class="r">Rows</th><th>Counts to the 120?</th></tr></thead><tbody>'+[[6,'none (legal ball)','189,167','yes'],[2,'wide','7,714','no'],[3,'legbyes','2,748','yes'],[1,'Overstep (no-ball)','576','no'],[4,'byes','529','yes'],[5,'other','264','mixed'],[7,'Penalty','1','n/a']].map(r=>'<tr><td class="r mono">'+r[0]+'</td><td>'+r[1]+'</td><td class="r mono">'+r[2]+'</td><td>'+r[3]+'</td></tr>').join('')+'</tbody>';
+  $('#method').innerHTML=[
+   ['1 · Clean','Drop super overs and rain-affected games. Rebuild each innings from runs plus extras, then reconcile totals to the match result.'],
+   ['2 · Pressure','P<sub>t</sub> = 0.45 · run-rate stress + 0.30 · wicket shock + 0.25 · stage leverage. High pressure is P<sub>t</sub> ≥ 0.62.'],
+   ['3 · Value','Score every ball against what an average player achieves in the same state, counting runs and wicket cost.'],
+   ['4 · Baseline','Compare a player in high pressure with his own ordinary balls.'],
+   ['5 · Shrink','Pull small samples toward the pool average (Empirical Bayes, k = 120 batters, 150 bowlers).'],
+   ['6 · Consistency','Count the share of matches in which the player beat expectation under pressure.'],
+   ['7 · Rank','Blend impact, uplift, consistency and raw execution (45 / 25 / 15 / 15).']
+  ].map(x=>'<div class="pl"><b>'+x[0]+'</b><span style="text-align:right;max-width:75%">'+x[1]+'</span></div>').join('');
+  $('#limits').innerHTML=[
+   'Team totals are rebuilt, so required rates can be off by a few runs.','The pressure weights (0.45, 0.30, 0.25) and the 0.62 cut are chosen, not fitted. A second model with a win-probability definition (tab 6) offers alternative options.',
+   'Bowling pressure skill is only weakly repeatable, so bowler ranks carry wide uncertainty.','Players with two seasons of data (Sooryavanshi, Arya) have wide intervals.',
+   'No venue, pitch, or opposition-strength adjustment.','IPL and T20I are pooled. Several players have almost all their pressure balls in one format.',
+   'Player teams for 2026 and all rupee figures come from public reports, not from the supplied data.'
+  ].map(x=>'<div class="pl"><span>'+x+'</span></div>').join('');
+}
+
+/* ---------- boot ---------- */
+(function(){
+  const left=Math.ceil((new Date('2026-11-17T23:59:00+05:30')-new Date())/864e5);
+  $('#countdown').textContent = 'Retentions final · auction 16 Dec';
+  $('#stamp').textContent = '17 Nov 2026';
+  const h=(location.hash||'').slice(1); go(TABS.some(t=>t[0]===h)?h:'submission');
+})();
+</script>
+</body>
+</html>
